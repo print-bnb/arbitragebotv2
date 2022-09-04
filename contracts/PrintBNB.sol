@@ -11,6 +11,8 @@ import './interfaces/IPancakeRouter02.sol';
 */
 contract PrintBNB is IERC3156FlashBorrower {
 
+    uint public MAX_INT = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
+
     enum Direction = {
         PancakeToBiswap
         BiswapToPancake
@@ -38,6 +40,22 @@ contract PrintBNB is IERC3156FlashBorrower {
         paymentAddress = _paymentSplitterAddress;
     }
 
+    //For `flashloanProviderAddress, search for FlashLoanProvider here:
+    //https://docs.equalizer.finance/equalizer-deep-dive/smart-contracts
+    function initiateFlashloan(
+      address flashloanProviderAddress, 
+      address token, 
+      uint amount, 
+      bytes calldata data
+    ) external {
+      IERC3156FlashLender(flashloanProviderAddress).flashLoan(
+        IERC3156FlashBorrower(address(this)),
+        token,
+        amount,
+        data
+      );
+    }
+
 
     // @dev ERC-3156 Flash loan callback
     function onFlashLoan(
@@ -45,44 +63,14 @@ contract PrintBNB is IERC3156FlashBorrower {
         address token,
         uint256 amount,
         uint256 fee,
-        bytes calldata data,
-        uint256 direction
+        bytes calldata data
     ) external override returns (bytes32) {
         uint balanceWbnb = wbnb.balanceOf(address(this));
         require(balanceWbnb >= amount, "Not enough WBNB");
         
-        if(direction == Direction.PancakeToBiswap) {
-      
-        } else (direction == Direction.BiswapToPancake) {
+        // Set the allowance to payback the flash loan
+        IERC20(token).approve(msg.sender, MAX_INT);
 
-        }
-
-        // Return success to the lender, he will transfer get the funds back if allowance is set accordingly
-        return keccak256('ERC3156FlashBorrower.onFlashLoan');
-    }
-
-    function startArbitrage(
-        address token0, 
-        address token1, 
-        uint amount0, 
-        uint amount1
-    ) external {
-        address pairAddress = pancakeExchange.getPair(token0, token1);
-        require(pairAddress != address(0), 'This pool does not exist');
-        IPancakePair(pairAddress).swap(
-            amount0, 
-            amount1, 
-            address(this), 
-            bytes('not empty')
-        );
-    }
-
-    function pancakeCall(
-        address _sender, 
-        uint _amount0, 
-        uint _amount1, 
-        bytes calldata _data
-    ) external {
         address[] memory path = new address[](2);
 
         // obtain an amount of token that you exchanged, for example WBNB
@@ -101,11 +89,11 @@ contract PrintBNB is IERC3156FlashBorrower {
         // else sell token0 for token1 as a result
         path[0] = _amount0 == 0 ? token1 : token0; // represents the forwarding exchange from source currency to swapped currency
         path[1] = _amount0 == 0 ? token0 : token1; // represents the backward exchange from swapeed currency to source currency
-     
+    
         // IERC20 token that we will sell for otherToken, for example WBNB
         IERC20 token = IERC20(_amount0 == 0 ? token1 : token0);
         
-        token.approve(address(biswap), amountToken);
+        WBNB.approve(address(biswap), amountToken);
 
         // calculate the amount of token how much input token should be reimbursed, USDT -> WBNB
         uint amountRequired = PancakeLibrary.getAmountsIn(
@@ -130,5 +118,8 @@ contract PrintBNB is IERC3156FlashBorrower {
         otherToken.transfer(msg.sender, amountRequired); // send back borrow
         // transfer the profit to the contract owner
         otherToken.transfer(paymentSplitterAddress, amountReceived - amountRequired);
+
+        // Return success to the lender, he will transfer get the funds back if allowance is set accordingly
+        return keccak256('ERC3156FlashBorrower.onFlashLoan');
     }
 }
