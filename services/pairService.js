@@ -1,4 +1,4 @@
-const { calculateNetProfit } = require("./priceService.js");
+const { calculateNetProfit } = require("./PriceService.js");
 const { baseTokens, quoteTokens, factoryAddress } = require("../constants/config");
 const { ethers } = require('hardhat');
 
@@ -6,22 +6,59 @@ const lodash = require('lodash');
 const fs = require('fs');
 
 //provider
-const provider = new ethers.providers.JsonRpcProvider(
-"https://bsc-dataseed.binance.org"
-);
+const provider = new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org");
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const pairFile = "./pairs.json";
+const { getReservesABI, factoryABI } = require('../constants/abi.js')
 
+const Provider = require('./Provider.js');
 
-const pairService = {
+class PairService extends Provider {
 
-    updatePairs: async () => {
-        const factoryAbi = ['function getPair(address, address) view returns (address pair)'];
+    constructor() {
+        super();
+    } 
+  
+    // get all pairs from json file
+    getAllPairs = async () => {
+        let pairs = [] ;
+        try {
+            pairs = JSON.parse(fs.readFileSync(pairFile, 'utf-8'));
+        } catch (err) {
+            pairs = null;
+        }
+
+        return pairs;
+    }
+    
+    // get pair price from pair address
+    getPairPrice = async (address) => {
+        if(address) {
+            
+            const pool = new ethers.Contract(
+            address,
+            getReservesABI,
+            provider
+            );
+        
+            const poolReserves = await pool.getReserves();
+            const token01 = Number(poolReserves.reserve0._hex);
+            const token02 = Number(poolReserves.reserve1._hex);
+            const price = token02 / token01;
+            
+            return price;
+        }
+
+        return null;
+    
+    }
+
+    updatePairs = async () => {
         let factories = [];
         for (const key in factoryAddress) {
             const addr = factoryAddress[key];
-            const factory = new ethers.Contract(addr, factoryAbi, provider);
+            const factory = new ethers.Contract(addr, factoryABI, this.provider);
             factories.push({
               contract: factory,
               exchange: key
@@ -81,10 +118,21 @@ const pairService = {
         }); 
     
         return allPairs;
-    },
+    }
+
+    // function to sort array by price
+    compare = (a, b) => {
+        if ( a.price < b.price ){
+            return -1;
+        }
+        if ( a.price > b.price ){
+            return 1;
+        }
+        return 0;
+    }
     
     // identify opportunites from array of pairs => use getAllPairs()
-    identifyOpportunities: async (pairs) => {
+    identifyOpportunities = async (pairs) => {
       const fee = 0.05010020040080576;
     
       for (let i = 0; i < pairs.length; i++) {
@@ -94,7 +142,7 @@ const pairService = {
     
         for (let j = 0; j < pair.pairs.length; j++) {
           const exchangeName = pair.pairs[j].exchange;
-          const pairPrice = await pairService.getPairPrice(pair.pairs[j].address);
+          const pairPrice = await this.getPairPrice(pair.pairs[j].address);
     
           exchange.push({
             price: pairPrice,
@@ -105,63 +153,20 @@ const pairService = {
         }
     
         // get exchange in and out
-        exchange.sort(pairService.compare);
+        exchange.sort(this.compare);
         console.log(`We are going to BUY on ${exchange[0].name} to SELL on ${exchange[1].name}`);
     
         // calculate net profit
-        const profit = await calculateNetProfit(exchange[1].price, exchange[0].price, fee)
-        // console.log({exchange})
+        const priceService = new PriceService();
+        const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price, fee)
+
         console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
         console.log(`Profit: ${profit}$`);
         console.log('-------------');
       }
       
-    },
-    
-    // get all pairs from json file
-    getAllPairs: async () => {
-      let pairs = [] ;
-      try {
-        pairs = JSON.parse(fs.readFileSync(pairFile, 'utf-8'));
-      } catch (err) {
-        pairs = null;
-      }
-    
-      return pairs;
-    },
-    
-    // get pair price from pair address
-    getPairPrice: async (address) => {
-       const ABI = [
-        "function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)",
-      ];
-    
-      const pool = new ethers.Contract(
-        address,
-        ABI,
-        provider
-      );
-    
-      const poolReserves = await pool.getReserves();
-      const token01 = Number(poolReserves.reserve0._hex);
-      const token02 = Number(poolReserves.reserve1._hex);
-      const price = token02 / token01;
-    
-      return price;
-    },
-
-    // function to sort array by price
-    compare: (a, b) => {
-      if ( a.price < b.price ){
-        return -1;
-      }
-      if ( a.price > b.price ){
-        return 1;
-      }
-      return 0;
     }
-    
   
 }
 
-module.exports = pairService;
+module.exports = PairService;

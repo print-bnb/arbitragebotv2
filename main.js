@@ -1,9 +1,10 @@
-const { getAllPairs, identifyOpportunities } = require('./services/pairService');
+const PairService  = require('./services/PairService');
 
 
 const startArbitrage = async () => {
-  const pairs = await getAllPairs();
-  identifyOpportunities(pairs);
+  const pairService = new PairService();
+  const pairs = await pairService.getAllPairs();
+  pairService.identifyOpportunities(pairs);
 }
 
 startArbitrage();
