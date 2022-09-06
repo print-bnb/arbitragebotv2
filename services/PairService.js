@@ -65,19 +65,16 @@ class PairService extends Provider {
         let tokenPairs = [];
         for (const key in baseTokens) {
             const baseToken = baseTokens[key];
-            // console.log({baseToken});
-    
             for (const quoteKey in quoteTokens) {
                 const quoteToken = quoteTokens[quoteKey];
                 const symbols = `${quoteToken.symbol}-${baseToken.symbol}`;
                 let tokenPair = { symbols, pairs: [] };
-    
+
                 for (const factory of factories) {
-                    console.log(`-------`);
+                    console.log("-------");
                     console.log(`search for ${symbols} on ${factory.exchange}`);
-                    try {
+                    // try {
                         const pair = await factory.contract.getPair(baseToken.address, quoteToken.address);
-            
                         if (pair != ZERO_ADDRESS) {
                             console.log(`find ${symbols} on ${factory.exchange}`);
                             tokenPair.pairs.push({
@@ -85,46 +82,43 @@ class PairService extends Provider {
                                 exchange: factory.exchange
                             });
                         }
-                    } catch (error) {
+                    // } catch (error) {
                         if (tokenPair.pairs.length >= 2) {
-                            console.log(`don't find ${symbols} on ${factory.exchange}`);
+                            // console.log(`don't find ${symbols} on ${factory.exchange}`);
                             tokenPairs.push(tokenPair);
                         }
-                    }
-                   
+                    // }
                 }
+            }
 
-              
-            }
         }
     
-        let allPairs = [];
-        for (const tokenPair of tokenPairs) {
-          if (tokenPair.pairs.length < 2) {
-            continue;
-          } else if (tokenPair.pairs.length == 2) {
-            allPairs.push(tokenPair);
-          } else {
-            const combinations = lodash.combinations(tokenPair.pairs, 2);
-            console.log({combinations})
-            for (const pair of combinations) {
-              const arbitragePair = {
-                symbols: tokenPair.symbols,
-                pairs: pair,
-              };
-              allPairs.push(arbitragePair);
-            }
-          }
-        }
+        // let allPairs = [];
+        // for (const tokenPair of tokenPairs) {
+        //   if (tokenPair.pairs.length < 2) {
+        //     continue;
+        //   } else if (tokenPair.pairs.length == 2) {
+        //     allPairs.push(tokenPair);
+        //   } else {
+        //     const combinations = lodash.combinations(tokenPair.pairs, 2);
+        //     console.log({combinations})
+        //     for (const pair of combinations) {
+        //       const arbitragePair = {
+        //         symbols: tokenPair.symbols,
+        //         pairs: pair,
+        //       };
+        //       allPairs.push(arbitragePair);
+        //     }
+        //   }
+        // }
+        console.log({tokenPairs})
     
-        fs.writeFile(pairFile, JSON.stringify(allPairs), async function (err) {
+        fs.writeFile(pairFile, JSON.stringify(tokenPairs), async function (err) {
           if (err) {
               return console.log(err);
           }
           console.log("Pairs file updated!");
         }); 
-    
-        return allPairs;
     }
 
     // function to sort array by price
@@ -163,12 +157,12 @@ class PairService extends Provider {
             console.log(`We are going to BUY on ${exchange[0].name} to SELL on ${exchange[exchange.length-1].name}`);
         
             // calculate net profit
-            // const priceService = new PriceService(fee);
-            // const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price)
+            const priceService = new PriceService(fee);
+            const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price)
 
-            // console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
-            // console.log(`Profit: ${profit}$`);
-            // console.log('-------------');
+            console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
+            console.log(`Profit: ${profit}$`);
+            console.log('-------------');
         }
     }
   
