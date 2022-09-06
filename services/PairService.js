@@ -113,7 +113,7 @@ class PairService extends Provider {
     }
     
     // identify opportunites from array of pairs => use getAllPairs()
-    identifyOpportunities = async (pairs) => {
+    getOpportunities = async (pairs) => {
         const fee = 0.05010020040080576;
         for (let i = 0; i < pairs.length; i++) {
             const pair = pairs[i];
