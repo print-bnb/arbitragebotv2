@@ -37,7 +37,7 @@ class PairService extends Provider {
             const pool = new ethers.Contract(
             address,
             getReservesABI,
-            provider
+            this.provider
             );
         
             const poolReserves = await pool.getReserves();
@@ -65,25 +65,36 @@ class PairService extends Provider {
         let tokenPairs = [];
         for (const key in baseTokens) {
             const baseToken = baseTokens[key];
-            console.log({baseToken});
+            // console.log({baseToken});
     
             for (const quoteKey in quoteTokens) {
-              const quoteToken = quoteTokens[quoteKey];
-              let tokenPair = { symbols: `${quoteToken.symbol}-${baseToken.symbol}`, pairs: [] };
+                const quoteToken = quoteTokens[quoteKey];
+                const symbols = `${quoteToken.symbol}-${baseToken.symbol}`;
+                let tokenPair = { symbols, pairs: [] };
     
-              for (const factory of factories) {
-                const pair = await factory.contract.getPair(baseToken.address, quoteToken.address);
-    
-                if (pair != ZERO_ADDRESS) {
-                  tokenPair.pairs.push({
-                    address: pair,
-                    exchange: factory.exchange
-                  });
+                for (const factory of factories) {
+                    console.log(`-------`);
+                    console.log(`search for ${symbols} on ${factory.exchange}`);
+                    try {
+                        const pair = await factory.contract.getPair(baseToken.address, quoteToken.address);
+            
+                        if (pair != ZERO_ADDRESS) {
+                            console.log(`find ${symbols} on ${factory.exchange}`);
+                            tokenPair.pairs.push({
+                                address: pair,
+                                exchange: factory.exchange
+                            });
+                        }
+                    } catch (error) {
+                        if (tokenPair.pairs.length >= 2) {
+                            console.log(`don't find ${symbols} on ${factory.exchange}`);
+                            tokenPairs.push(tokenPair);
+                        }
+                    }
+                   
                 }
-              }
-              if (tokenPair.pairs.length >= 2) {
-                tokenPairs.push(tokenPair);
-              }
+
+              
             }
         }
     
@@ -149,15 +160,15 @@ class PairService extends Provider {
         
             // get exchange in and out
             exchange.sort(this.compare);
-            console.log(`We are going to BUY on ${exchange[0].name} to SELL on ${exchange[1].name}`);
+            console.log(`We are going to BUY on ${exchange[0].name} to SELL on ${exchange[exchange.length-1].name}`);
         
             // calculate net profit
-            const priceService = new PriceService(fee);
-            const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price)
+            // const priceService = new PriceService(fee);
+            // const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price)
 
-            console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
-            console.log(`Profit: ${profit}$`);
-            console.log('-------------');
+            // console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
+            // console.log(`Profit: ${profit}$`);
+            // console.log('-------------');
         }
     }
   
