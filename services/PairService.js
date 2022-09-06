@@ -1,5 +1,4 @@
 const { ethers } = require('hardhat');
-const lodash = require('lodash');
 const fs = require('fs');
 
 // CONSTANTS
@@ -81,10 +80,11 @@ class PairService extends Provider {
                                 address: pair,
                                 exchange: factory.exchange
                             });
+                        } else {
+                            console.log(`don't find ${symbols} on ${factory.exchange}`);
                         }
                     // } catch (error) {
                         if (tokenPair.pairs.length >= 2) {
-                            // console.log(`don't find ${symbols} on ${factory.exchange}`);
                             tokenPairs.push(tokenPair);
                         }
                     // }
@@ -92,26 +92,6 @@ class PairService extends Provider {
             }
 
         }
-    
-        // let allPairs = [];
-        // for (const tokenPair of tokenPairs) {
-        //   if (tokenPair.pairs.length < 2) {
-        //     continue;
-        //   } else if (tokenPair.pairs.length == 2) {
-        //     allPairs.push(tokenPair);
-        //   } else {
-        //     const combinations = lodash.combinations(tokenPair.pairs, 2);
-        //     console.log({combinations})
-        //     for (const pair of combinations) {
-        //       const arbitragePair = {
-        //         symbols: tokenPair.symbols,
-        //         pairs: pair,
-        //       };
-        //       allPairs.push(arbitragePair);
-        //     }
-        //   }
-        // }
-        console.log({tokenPairs})
     
         fs.writeFile(pairFile, JSON.stringify(tokenPairs), async function (err) {
           if (err) {
@@ -154,11 +134,15 @@ class PairService extends Provider {
         
             // get exchange in and out
             exchange.sort(this.compare);
-            console.log(`We are going to BUY on ${exchange[0].name} to SELL on ${exchange[exchange.length-1].name}`);
+
+            const exchangeIn = exchange[0];
+            const exchangeOut = exchange.pop();
+
+            console.log(`We are going to BUY on ${exchangeIn.name} to SELL on ${exchangeOut.name}`);
         
             // calculate net profit
             const priceService = new PriceService(fee);
-            const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price)
+            const profit = await priceService.calculateNetProfit(exchangeOut.price, exchangeIn.price);
 
             console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
             console.log(`Profit: ${profit}$`);
