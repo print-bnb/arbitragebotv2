@@ -4,7 +4,7 @@ module.exports = {
     factoryAddress: {
         PANCAKE: "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
         BISWAP: "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-        SUSHI: "0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac"
+        BAKERY: "0x01bF7C66c6BD861915CdaaE475042d3c4BaE16A7"
     },
 
     router: {
