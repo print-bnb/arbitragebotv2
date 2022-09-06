@@ -1,18 +1,16 @@
-const { calculateNetProfit } = require("./PriceService.js");
-const { baseTokens, quoteTokens, factoryAddress } = require("../constants/config");
 const { ethers } = require('hardhat');
-
 const lodash = require('lodash');
 const fs = require('fs');
 
-//provider
-const provider = new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org");
-
+// CONSTANTS
+const { getReservesABI, factoryABI } = require('../constants/abi.js');
+const { baseTokens, quoteTokens, factoryAddress } = require("../constants/config");
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const pairFile = "./pairs.json";
-const { getReservesABI, factoryABI } = require('../constants/abi.js')
 
+// SERVICES
 const Provider = require('./Provider.js');
+const PriceService = require('./PriceService.js');
 
 class PairService extends Provider {
 
@@ -51,7 +49,6 @@ class PairService extends Provider {
         }
 
         return null;
-    
     }
 
     updatePairs = async () => {
@@ -114,7 +111,6 @@ class PairService extends Provider {
               return console.log(err);
           }
           console.log("Pairs file updated!");
-    
         }); 
     
         return allPairs;
@@ -133,38 +129,36 @@ class PairService extends Provider {
     
     // identify opportunites from array of pairs => use getAllPairs()
     identifyOpportunities = async (pairs) => {
-      const fee = 0.05010020040080576;
-    
-      for (let i = 0; i < pairs.length; i++) {
-        const pair = pairs[i];
-        const symbols = pair.symbols;
-        let exchange = [];
-    
-        for (let j = 0; j < pair.pairs.length; j++) {
-          const exchangeName = pair.pairs[j].exchange;
-          const pairPrice = await this.getPairPrice(pair.pairs[j].address);
-    
-          exchange.push({
-            price: pairPrice,
-            name: exchangeName
-          })
-    
-          console.log(`${symbols} on ${exchangeName} : ${pairPrice}`);
-        }
-    
-        // get exchange in and out
-        exchange.sort(this.compare);
-        console.log(`We are going to BUY on ${exchange[0].name} to SELL on ${exchange[1].name}`);
-    
-        // calculate net profit
-        const priceService = new PriceService();
-        const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price, fee)
+        const fee = 0.05010020040080576;
+        for (let i = 0; i < pairs.length; i++) {
+            const pair = pairs[i];
+            const symbols = pair.symbols;
+            let exchange = [];
+        
+            for (let j = 0; j < pair.pairs.length; j++) {
+            const exchangeName = pair.pairs[j].exchange;
+            const pairPrice = await this.getPairPrice(pair.pairs[j].address);
+        
+            exchange.push({
+                price: pairPrice,
+                name: exchangeName
+            })
+        
+            console.log(`${symbols} on ${exchangeName} : ${pairPrice}`);
+            }
+        
+            // get exchange in and out
+            exchange.sort(this.compare);
+            console.log(`We are going to BUY on ${exchange[0].name} to SELL on ${exchange[1].name}`);
+        
+            // calculate net profit
+            const priceService = new PriceService(fee);
+            const profit = await priceService.calculateNetProfit(exchange[1].price, exchange[0].price)
 
-        console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
-        console.log(`Profit: ${profit}$`);
-        console.log('-------------');
-      }
-      
+            console.log(`This trade is profitable ? ${profit > 0 ? "YES" : "NO"}`);
+            console.log(`Profit: ${profit}$`);
+            console.log('-------------');
+        }
     }
   
 }

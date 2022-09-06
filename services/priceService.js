@@ -1,12 +1,13 @@
-const priceService = {
+class PriceService {
+
+    constructor(fee) {
+        this.fee = fee;
+    } 
     
-    calculateNetProfit: async () => {
-
-    },
-
+    calculateNetProfit = (priceA, priceB) => {
+        return priceA - priceB - this.fee; 
+    }
+    
 }
 
-module.exports = priceService;
-
-// usage
-// const { calculateNetProfit } = require(./services/priceService.js);
+module.exports = PriceService;

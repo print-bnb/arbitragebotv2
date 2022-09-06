@@ -6,6 +6,4 @@ module.exports = {
     factoryABI: [
         "function getPair(address, address) view returns (address pair)"
     ],
-
-
 }
