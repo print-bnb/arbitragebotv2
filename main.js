@@ -3,7 +3,7 @@ const pairService = new PairService();
 
 const startArbitrage = async () => {
   const pairs = await pairService.getAllPairs();
-  pairService.identifyOpportunities(pairs);
+  pairService.getOpportunities(pairs);
 }
 
 const refreshPairs = async () => {
