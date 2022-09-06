@@ -89,11 +89,14 @@ class PairService extends Provider {
                         }
                     // }
                 }
+                
             }
 
         }
-    
-        fs.writeFile(pairFile, JSON.stringify(tokenPairs), async function (err) {
+                
+        let tokenPairWithoutDuplicates = [...new Set(tokenPairs)];
+
+        fs.writeFile(pairFile, JSON.stringify(tokenPairWithoutDuplicates), async function (err) {
           if (err) {
               return console.log(err);
           }
