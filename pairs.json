@@ -1,1 +1,436 @@
-[{"symbols":"ETH-USDT","pairs":[{"address":"0x531FEbfeb9a61D948c384ACFBe6dCc51057AEa7e","exchange":"PANCAKE"},{"address":"0x63b30de1A998e9E64FD58A21F68D323B9BcD8F85","exchange":"BISWAP"},{"address":"0x408D46D0F351f51ebc15e466aa897e5e0F5D2060","exchange":"BAKERY"},{"address":"0x0FB881c078434b1C0E4d0B64d8c64d12078b7Ce2","exchange":"MDEX"},{"address":"0xF5d1FB15a517Bc9F7568751c6a42545CFf28465b","exchange":"APESWAP"}]},{"symbols":"CAKE-USDT","pairs":[{"address":"0xA39Af17CE4a8eb807E076805Da1e2B8EA7D0755b","exchange":"PANCAKE"},{"address":"0x5032A2fB29B72ad8dAcC71429A2a81DF637433bb","exchange":"BISWAP"},{"address":"0x235c1f439CFD64e153Dd77194aFBA685e3CC3dE5","exchange":"MDEX"},{"address":"0xC32f6cF83C153729153f15bDFD5BbC9E9148947F","exchange":"APESWAP"}]},{"symbols":"ETH-WBNB","pairs":[{"address":"0x74E4716E431f45807DCF19f284c7aA99F18a4fbc","exchange":"PANCAKE"},{"address":"0x5bf6941f029424674bb93A43b79fc46bF4A67c21","exchange":"BISWAP"},{"address":"0xa50b9c5DB61C855D5939aa1a66B26Df77745809b","exchange":"BAKERY"},{"address":"0x82E8F9e7624fA038DfF4a39960F5197A43fa76aa","exchange":"MDEX"},{"address":"0x91243Da8a660B4aB514df152169ee73e9cef9B4b","exchange":"JULSWAP"},{"address":"0xA0C3Ef24414ED9C9B456740128d8E63D016A9e11","exchange":"APESWAP"}]},{"symbols":"CAKE-WBNB","pairs":[{"address":"0x0eD7e52944161450477ee417DE9Cd3a859b14fD0","exchange":"PANCAKE"},{"address":"0x3d94d03eb9ea2D4726886aB8Ac9fc0F18355Fd13","exchange":"BISWAP"},{"address":"0x65E9CfDBC579856B6354d369AFBFbA2B2a3C7856","exchange":"BAKERY"},{"address":"0xA13aFe2DF0fA0bb11F2aeAAAF98aC1D591E108d1","exchange":"MDEX"},{"address":"0x0bf693a8679eFB36Ac912c147A75e19368A33CDA","exchange":"JULSWAP"},{"address":"0x60593Abea55e9Ea9d31c1b6473191cD2475a720D","exchange":"APESWAP"}]},{"symbols":"ETH-BUSD","pairs":[{"address":"0x7213a321F1855CF1779f42c0CD85d3D95291D34C","exchange":"PANCAKE"},{"address":"0xCfc551DaF4437E9e6516747c30012F094b74880a","exchange":"BISWAP"},{"address":"0xE2b7b3e9171e5f9693f4d9304177fa4b129D0bCA","exchange":"BAKERY"},{"address":"0xc0BA2569e473974e9004CEEEae76Aeaea521525c","exchange":"MDEX"},{"address":"0xb0AEbBC35D98387c63a6E87cd2CF67ec2e5A5851","exchange":"APESWAP"}]},{"symbols":"CAKE-BUSD","pairs":[{"address":"0x804678fa97d91B974ec2af3c843270886528a9E6","exchange":"PANCAKE"},{"address":"0x829328ec4091E6A50475917371c7427A2167E8C9","exchange":"BISWAP"},{"address":"0x0972A91854eFe50841e2FC2F019cB86dF221C39f","exchange":"BAKERY"},{"address":"0x8128c2f42dC99288f3a825fc137e78034912EDf4","exchange":"MDEX"},{"address":"0x2458B53152FEE1b71FfCc730e735B681Cbf0C175","exchange":"JULSWAP"},{"address":"0xbDA9B353A8A8653DdA15d5DbB27E84Df9038Fe24","exchange":"APESWAP"}]}]
+[
+  {
+    "symbols": "ETH-USDT",
+    "pairs": [
+      {
+        "address": "0x531FEbfeb9a61D948c384ACFBe6dCc51057AEa7e",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x63b30de1A998e9E64FD58A21F68D323B9BcD8F85",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0x408D46D0F351f51ebc15e466aa897e5e0F5D2060",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0x0FB881c078434b1C0E4d0B64d8c64d12078b7Ce2",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0xF5d1FB15a517Bc9F7568751c6a42545CFf28465b",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0xe324aa41eeFd912421C601626A6D5F85CC346B6a",
+        "exchange": "NOMISWAP"
+      },
+      {
+        "address": "0xfa0C1bD534784b978b4d5c426836f7c44f5C0b20",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "CAKE-USDT",
+    "pairs": [
+      {
+        "address": "0xA39Af17CE4a8eb807E076805Da1e2B8EA7D0755b",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x5032A2fB29B72ad8dAcC71429A2a81DF637433bb",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0x235c1f439CFD64e153Dd77194aFBA685e3CC3dE5",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0xC32f6cF83C153729153f15bDFD5BbC9E9148947F",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0x0c9FA735DbC788E28437a076B51e6B61b238f973",
+        "exchange": "NOMISWAP"
+      },
+      {
+        "address": "0x2b1Ab050D9975c5449B12B2a084630F51d14D80f",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ADA-USDT",
+    "pairs": [
+      {
+        "address": "0xf53BEd8082D225D7b53420AB560658c5E6ff42D8",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x6e09959cC977bAF4D9097dE48178BDF155858FFE",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0x17632dCDA12c522Ec2bC8a08c6419aB16F249d35",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0x8511A5eDfd77Bb0d2379498d5A1bCA589302d6dE",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0x325E05AFc5912f62c96c87a6FE51a420b567528B",
+        "exchange": "NOMISWAP"
+      },
+      {
+        "address": "0xcb2828964FDa6A0eC8ed1C0b95E73A5eE58CF16A",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALICE-USDT",
+    "pairs": [
+      {
+        "address": "0x61133E1C8607f5eB5e6047C62666868Cc9Bd49F0",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x2DEE98A03519e7D25E973F2B4ED52D6AbAD5e341",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALU-USDT",
+    "pairs": [
+      {
+        "address": "0xc6B25a03bC7244cF4CaCd07Ffe19C9Ad97169f9d",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x75771E0Bc728be8d0e40E59ca0FdC6472145e39F",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0xaB0972Ef36b2e4217bBDAC4AB25e35f6c897D650",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ETH-WBNB",
+    "pairs": [
+      {
+        "address": "0x74E4716E431f45807DCF19f284c7aA99F18a4fbc",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x5bf6941f029424674bb93A43b79fc46bF4A67c21",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0xa50b9c5DB61C855D5939aa1a66B26Df77745809b",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0x82E8F9e7624fA038DfF4a39960F5197A43fa76aa",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0x91243Da8a660B4aB514df152169ee73e9cef9B4b",
+        "exchange": "JULSWAP"
+      },
+      {
+        "address": "0xA0C3Ef24414ED9C9B456740128d8E63D016A9e11",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0x13dE257cb86a08753Df938b6ad30d1A456A863e6",
+        "exchange": "NOMISWAP"
+      },
+      {
+        "address": "0x12C69cbebb5AeD7C85A01bc2206318fB6c03E940",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "CAKE-WBNB",
+    "pairs": [
+      {
+        "address": "0x0eD7e52944161450477ee417DE9Cd3a859b14fD0",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x3d94d03eb9ea2D4726886aB8Ac9fc0F18355Fd13",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0x65E9CfDBC579856B6354d369AFBFbA2B2a3C7856",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0xA13aFe2DF0fA0bb11F2aeAAAF98aC1D591E108d1",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0x0bf693a8679eFB36Ac912c147A75e19368A33CDA",
+        "exchange": "JULSWAP"
+      },
+      {
+        "address": "0x60593Abea55e9Ea9d31c1b6473191cD2475a720D",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0x8EeA120384ace96A63e2f144Ef7F9a6F2BBcfF8f",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ADA-WBNB",
+    "pairs": [
+      {
+        "address": "0x28415ff2C35b65B9E5c7de82126b4015ab9d031F",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x8860922Eb2795aB0D57363653Dd7EBf18D7c0A42",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0xF9ebF0067846bC6D9D830c069DFD81E3826a4644",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0x428daB4F52C5f76b86eD964e03E7c93D02f2E3bB",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0x1F62137AC4B72615A50Ae494B699cEd443eeB3aA",
+        "exchange": "JULSWAP"
+      },
+      {
+        "address": "0x40d4543887E4170A1A40Cd8dB15A6b297c812Cb1",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0xe13AD84Ff4b502865Fb60aC61B5962D58146F494",
+        "exchange": "NOMISWAP"
+      },
+      {
+        "address": "0xfcB2Dba7040f5838bff17432E0657315d1ED2F0d",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALICE-WBNB",
+    "pairs": [
+      {
+        "address": "0xcAD7019D6d84a3294b0494aEF02e73BD0f2572Eb",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x7Dc46c32D9C72DCf190269f127E03ED8c967d87F",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0xd2Bc6b3C6DaDF7bA3fA8570b38476FBD1ab99e21",
+        "exchange": "APESWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALIX-WBNB",
+    "pairs": [
+      {
+        "address": "0xE5bd620A36Dc68E6ffe94342C275E5d97f461740",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x0b820896A938C7Df219ffBfbCc6501106661E2AC",
+        "exchange": "APESWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALPHA-WBNB",
+    "pairs": [
+      {
+        "address": "0xACF47CBEaab5c8A6Ee99263cfE43995f89fB3206",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x5ea2efFB38a84Fb95e7B7713f0c10BDA99b25A9F",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0x967B9556A7A3948AD7C90649297D7811C7b8251F",
+        "exchange": "APESWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALU-WBNB",
+    "pairs": [
+      {
+        "address": "0x3C7e7122f4DDcfC5b5c31b5c735Ce2Ae3b015856",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0xca7172132824954667AAD12600450097D04D7b29",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0x56F40F52128aCF1ec8024B2076aC17425C3B7003",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0x3C2Ac2a0867bB458423a7f8F81e7B7dA5a1C3a1C",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0x48dF35116167d661e5a866e7b333c85A04b70d55",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ETH-BUSD",
+    "pairs": [
+      {
+        "address": "0x7213a321F1855CF1779f42c0CD85d3D95291D34C",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0xCfc551DaF4437E9e6516747c30012F094b74880a",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0xE2b7b3e9171e5f9693f4d9304177fa4b129D0bCA",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0xc0BA2569e473974e9004CEEEae76Aeaea521525c",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0xb0AEbBC35D98387c63a6E87cd2CF67ec2e5A5851",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0xE22377dF9aA9A0337F2E28708f2A69F1283C948c",
+        "exchange": "NOMISWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "CAKE-BUSD",
+    "pairs": [
+      {
+        "address": "0x804678fa97d91B974ec2af3c843270886528a9E6",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x829328ec4091E6A50475917371c7427A2167E8C9",
+        "exchange": "BISWAP"
+      },
+      {
+        "address": "0x0972A91854eFe50841e2FC2F019cB86dF221C39f",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0x8128c2f42dC99288f3a825fc137e78034912EDf4",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0x2458B53152FEE1b71FfCc730e735B681Cbf0C175",
+        "exchange": "JULSWAP"
+      },
+      {
+        "address": "0xbDA9B353A8A8653DdA15d5DbB27E84Df9038Fe24",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0xF1020e1e87B85E2c1DaEbc98Ed89470E7fEF264C",
+        "exchange": "NOMISWAP"
+      },
+      {
+        "address": "0x1129aD2292CA0aCd3b3E62934581108bbA7E5ea5",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ADA-BUSD",
+    "pairs": [
+      {
+        "address": "0x1E249DF2F58cBef7EAc2b0EE35964ED8311D5623",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x3105db3B063A1a0a9513F9418a3b84Cf8281b5cE",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0xCE2680482E489D71CA2AbA72985cE233305a3185",
+        "exchange": "MDEX"
+      },
+      {
+        "address": "0x731186e6d5724D33e12847d3ef6367A1C5ed44E5",
+        "exchange": "APESWAP"
+      },
+      {
+        "address": "0xdD03bB4B202De8255Bf48baD53E57c1b43088da1",
+        "exchange": "NOMISWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALICE-BUSD",
+    "pairs": [
+      {
+        "address": "0x3048C420c120962fAf97748c6bfB7915f2Ba68ca",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0xe7f944c88296Eacd66e1DCB838661507E504aFea",
+        "exchange": "BAKERY"
+      },
+      {
+        "address": "0xD69f1eCd53C805DD4A5FA15272246941F02d6a4c",
+        "exchange": "BABYSWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALPHA-BUSD",
+    "pairs": [
+      {
+        "address": "0x2DE26aB9EDBa88035524d8a3E6D16D2a98abEe4B",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0x81BbBa8427338102Dd51bbC7934945876F443944",
+        "exchange": "BISWAP"
+      }
+    ]
+  },
+  {
+    "symbols": "ALU-BUSD",
+    "pairs": [
+      {
+        "address": "0xd3F611a2932d96cB45cF7D97d0F01B6e80014988",
+        "exchange": "PANCAKE"
+      },
+      {
+        "address": "0xB98B550815166011DFE31a5B4ae045f7467723C6",
+        "exchange": "BISWAP"
+      }
+    ]
+  }
+]
