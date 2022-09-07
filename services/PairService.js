@@ -9,6 +9,7 @@ const {
     quoteTokens,
     factoryAddress,
     routerAddress,
+    ZERO_ADDRESS,
 } = require('../constants/config')
 
 const pairFile = './pairs.json'
@@ -51,7 +52,7 @@ class PairService extends Provider {
             routerABI,
             this.provider
         )
-
+        console.log('binks')
         // const poolReserves = await pair.getReserves()
         // const token0 = Number(poolReserves.reserve0._hex)
         // const token1 = Number(poolReserves.reserve1._hex)
@@ -88,10 +89,10 @@ class PairService extends Provider {
             exchangesContracts.push({
                 factory,
                 router,
-                exchange: Object.keys(factoryAddress)[i],
+                exchangeName: Object.keys(factoryAddress)[i],
             })
         }
-        console.log(exchangesContracts)
+
         let tokenPairs = []
         for (const key in baseTokens) {
             const baseToken = baseTokens[key]
@@ -110,32 +111,39 @@ class PairService extends Provider {
 
                 let tokenPair = { symbols, pairs: [] }
 
-                for (const factory of factories) {
+                for (const exchange of exchangesContracts) {
                     console.log('-------')
-                    console.log(`search for ${symbols} on ${factory.exchange}`)
-                    // try {
-                    const pair = await factory.contract.getPair(
+                    console.log(
+                        `search for ${symbols} on ${exchange.exchangeName}`
+                    )
+
+                    const pairAddress = await exchange.factory.getPair(
                         baseToken.address,
                         quoteToken.address
                     )
-                    if (pair != ZERO_ADDRESS) {
-                        console.log(`find ${symbols} on ${factory.exchange}`)
+
+                    if (pairAddress != ZERO_ADDRESS) {
+                        console.log(
+                            `find ${symbols} on ${exchange.exchangeName}`
+                        )
                         tokenPair.pairs.push({
-                            address: pair,
-                            exchange: factory.exchange,
-                            factory: factory.contract.address,
-                            router: factory.router.address,
+                            address: pairAddress,
+                            exchange: {
+                                name: exchange.exchangeName,
+                                factoryAddress: exchange.factory.address,
+                                routerAddress: exchange.router.address,
+                            },
                         })
                     } else {
                         console.log(
-                            `don't find ${symbols} on ${factory.exchange}`
+                            `don't find ${symbols} on ${exchange.exchangeName}`
                         )
                     }
-                    // } catch (error) {
+
                     if (tokenPair.pairs.length >= 2) {
                         tokenPairs.push(tokenPair)
+                        console.log(tokenPairs)
                     }
-                    // }
                 }
             }
         }
@@ -167,18 +175,18 @@ class PairService extends Provider {
 
     // identify opportunites from array of pairs => use getAllPairs()
     getOpportunities = async (pairs) => {
-        for (let i = 0; i < pairs.length; i++) {
-            const pair = pairs[i]
+        for (const pair of pairs) {
             const symbols = pair.symbols
             let exchangesPrices = []
 
-            for (let j = 0; j < pair.pairs.length; j++) {
-                const exchangeName = pair.pairs[j].exchange
-                const { pairPrice } = await this.getPairPrice(
+            for (const singleExchangePair of pair.pairs) {
+                const exchangeName = singleExchangePair.exchange.name
+
+                const pairPrice = await this.getPairPrice(
                     1,
-                    pair.pairs[j].address,
-                    pair.pairs[j].router,
-                    pair.pairs[j].factory
+                    singleExchangePair.address,
+                    singleExchangePair.exchange.routerAddress,
+                    singleExchangePair.exchange.factoryAddress
                 )
 
                 exchangesPrices.push({
