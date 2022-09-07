@@ -5,8 +5,8 @@ class PriceService {
 
     computeUnitProfit = (exchangesPrices) => {
         let priceRatio =
-            exchangesPrices[exchangesPrices.length - 1].price /
-            exchangesPrices[0].price
+            exchangesPrices[exchangesPrices.length - 1].pairPriceWithoutFees /
+            exchangesPrices[0].pairPriceWithoutFees
         let buyFees =
             (100 -
                 this.tradingFees[
@@ -14,8 +14,15 @@ class PriceService {
                 ]) /
             100
         let sellFees = (100 - this.tradingFees[exchangesPrices[0].name]) / 100
-
+        console.log(priceRatio * buyFees * sellFees - 1)
         return priceRatio * buyFees * sellFees - 1
+    }
+
+    computePriceWithFees = (pairPriceWithoutFees, exchangeName) => {
+        return (
+            (pairPriceWithoutFees * (100 - this.tradingFees[exchangeName])) /
+            100
+        )
     }
 }
 

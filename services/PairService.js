@@ -10,6 +10,7 @@ const {
     factoryAddress,
     routerAddress,
     ZERO_ADDRESS,
+    tradingFees,
 } = require('../constants/config')
 
 const pairFile = './pairs.json'
@@ -17,6 +18,7 @@ const pairFile = './pairs.json'
 // SERVICES
 const Provider = require('./Provider.js')
 const PriceService = require('./PriceService.js')
+const priceService = new PriceService(tradingFees)
 
 class PairService extends Provider {
     constructor() {
@@ -36,12 +38,7 @@ class PairService extends Provider {
     }
 
     // get pair price from pair address
-    getPairPrice = async (
-        amountIn,
-        pairAddress,
-        routerAddress,
-        factoryAddress
-    ) => {
+    getPairPrice = async (amountIn, pairAddress, routerAddress) => {
         const pairContractInstance = new ethers.Contract(
             pairAddress,
             pairABI,
@@ -52,22 +49,31 @@ class PairService extends Provider {
             routerABI,
             this.provider
         )
-        console.log('binks')
-        // const poolReserves = await pair.getReserves()
-        // const token0 = Number(poolReserves.reserve0._hex)
-        // const token1 = Number(poolReserves.reserve1._hex)
-        // const pairPrice = token1 / token0
 
-        let addressToken0 = await pairContractInstance.token0
-        let addressToken1 = await pairContractInstance.token1
-        const path = [addressToken0, addressToken1]
+        //getting reserves
+        const poolReserves = await pairContractInstance.getReserves()
 
-        const pairPrice = await routerContractInstance.getAmountsOut(
-            amountIn,
+        const token0 = Number(ethers.utils.formatEther(poolReserves[0]))
+        const token1 = Number(ethers.utils.formatEther(poolReserves[1]))
+        const pairPrice = token0 / token1
+
+        //quotation with fees
+        let addressToken0 = await pairContractInstance.token0()
+        let addressToken1 = await pairContractInstance.token1()
+
+        const path = [addressToken1, addressToken0]
+
+        const pairPriceArray = await routerContractInstance.getAmountsOut(
+            ethers.utils.parseUnits(amountIn, 18),
             path
         )
 
-        return pairPrice
+        return {
+            pairPriceWithFees: Number(
+                ethers.utils.formatEther(pairPriceArray[1])
+            ),
+            pairPriceWithoutFees: pairPrice,
+        }
     }
 
     updatePairs = async () => {
@@ -142,7 +148,6 @@ class PairService extends Provider {
 
                     if (tokenPair.pairs.length >= 2) {
                         tokenPairs.push(tokenPair)
-                        console.log(tokenPairs)
                     }
                 }
             }
@@ -164,10 +169,10 @@ class PairService extends Provider {
 
     // function to sort array by price
     compare = (a, b) => {
-        if (a.price < b.price) {
+        if (a.pairPriceWithFees < b.pairPriceWithFees) {
             return -1
         }
-        if (a.price > b.price) {
+        if (a.pairPriceWithFees > b.pairPriceWithFees) {
             return 1
         }
         return 0
@@ -182,19 +187,28 @@ class PairService extends Provider {
             for (const singleExchangePair of pair.pairs) {
                 const exchangeName = singleExchangePair.exchange.name
 
-                const pairPrice = await this.getPairPrice(
-                    1,
-                    singleExchangePair.address,
-                    singleExchangePair.exchange.routerAddress,
-                    singleExchangePair.exchange.factoryAddress
-                )
+                const { pairPriceWithFees, pairPriceWithoutFees } =
+                    await this.getPairPrice(
+                        '1',
+                        singleExchangePair.address,
+                        singleExchangePair.exchange.routerAddress
+                    )
 
+                let pairPriceWithFeesComputed =
+                    priceService.computePriceWithFees(
+                        pairPriceWithoutFees,
+                        exchangeName
+                    )
                 exchangesPrices.push({
-                    price: pairPrice,
+                    pairPriceWithFees,
+                    pairPriceWithFeesComputed,
+                    pairPriceWithoutFees,
                     name: exchangeName,
                 })
 
-                console.log(`${symbols} on ${exchangeName} : ${pairPrice}`)
+                console.log(
+                    `${symbols} on ${exchangeName} : ${pairPriceWithFees} with Fees and ${pairPriceWithoutFees} without Fees`
+                )
             }
 
             // get exchange in and out
@@ -207,8 +221,7 @@ class PairService extends Provider {
             )
 
             // calculate net profit
-            const priceService = new PriceService(tradingFees)
-            const profit = await priceService.computeUnitProfit(exchangesPrices)
+            const profit = priceService.computeUnitProfit(exchangesPrices)
 
             console.log(
                 `This trade is profitable ? ${profit > 0 ? 'YES' : 'NO'}`
