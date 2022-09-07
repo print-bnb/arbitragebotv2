@@ -207,7 +207,7 @@ class PairService extends Provider {
                 })
 
                 console.log(
-                    `${symbols} on ${exchangeName} : ${pairPriceWithFees} with Fees and ${pairPriceWithoutFees} without Fees`
+                    `${symbols} on ${exchangeName} : ${pairPriceWithFees} with Fees, ${pairPriceWithFeesComputed} computedFees and ${pairPriceWithoutFees} without Fees`
                 )
             }
 
