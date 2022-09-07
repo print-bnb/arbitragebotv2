@@ -66,4 +66,17 @@ const getPrice = async () => {
     console.log('------duration', Date.now() - start)
 }
 
-getPrice()
+// getPrice()
+
+let test = [
+    { symbols: 'WBNB-USDT', pairs: [[Object], [Object], [Object]] },
+    { symbols: 'WBNB-USDT', pairs: [[Object], [Object], [Object]] },
+    { symbols: 'BUSD-USDT', pairs: [[Object], [Object], [Object]] },
+    { symbols: 'BUSD-USDT', pairs: [[Object], [Object], [Object]] },
+    { symbols: 'ETH-USDT', pairs: [[Object], [Object], [Object]] },
+    { symbols: 'ETH-USDT', pairs: [[Object], [Object], [Object]] },
+    { symbols: 'USDT-WBNB', pairs: [[Object], [Object], [Object]] },
+    { symbols: 'USDT-WBNB', pairs: [[Object], [Object], [Object]] },
+]
+
+console.log(test.some((obj) => obj.symbols.includes('WBNB-H')))

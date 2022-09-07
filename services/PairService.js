@@ -52,6 +52,8 @@ class PairService extends Provider {
         return null
     }
 
+    getSwapQuote = async (address) => {}
+
     updatePairs = async () => {
         let factories = []
         for (const key in factoryAddress) {
@@ -69,6 +71,16 @@ class PairService extends Provider {
             for (const quoteKey in quoteTokens) {
                 const quoteToken = quoteTokens[quoteKey]
                 const symbols = `${quoteToken.symbol}-${baseToken.symbol}`
+                const duplicateSymbols = `${baseToken.symbol}-${quoteToken.symbol}`
+
+                if (
+                    quoteToken.symbol === baseToken.symbol ||
+                    tokenPairs.some((obj) =>
+                        obj.symbols.includes(duplicateSymbols)
+                    )
+                )
+                    continue
+
                 let tokenPair = { symbols, pairs: [] }
 
                 for (const factory of factories) {
@@ -126,7 +138,6 @@ class PairService extends Provider {
 
     // identify opportunites from array of pairs => use getAllPairs()
     getOpportunities = async (pairs) => {
-        const fee = 0.05010020040080576
         for (let i = 0; i < pairs.length; i++) {
             const pair = pairs[i]
             const symbols = pair.symbols
@@ -157,8 +168,8 @@ class PairService extends Provider {
             // calculate net profit
             const priceService = new PriceService(fee)
             const profit = await priceService.calculateNetProfit(
-                exchangeOut.price,
-                exchangeIn.price
+                exchangeIn.price,
+                exchangeOut.price
             )
 
             console.log(

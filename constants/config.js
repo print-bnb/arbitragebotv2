@@ -25,6 +25,18 @@ module.exports = {
         KNIGHTSWAP: '0x05E61E0cDcD2170a76F9568a110CEe3AFdD6c46f',
     },
 
+    tradingFees: {
+        PANCAKE: 0.3,
+        BISWAP: 0.2,
+        BAKERY: 0.3,
+        MDEX: 0.3,
+        JULSWAP: 0.3,
+        APESWAP: 0.2,
+        NOMISWAP: 0.1,
+        BABYSWAP: 0.3,
+        KNIGHTSWAP: 0.2,
+    },
+
     baseTokens: {
         usdt: {
             symbol: 'USDT',
@@ -41,6 +53,18 @@ module.exports = {
     },
 
     quoteTokens: {
+        usdt: {
+            symbol: 'USDT',
+            address: '0x55d398326f99059ff775485246999027b3197955',
+        },
+        wbnb: {
+            symbol: 'WBNB',
+            address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+        },
+        busd: {
+            symbol: 'BUSD',
+            address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+        },
         eth: {
             symbol: 'ETH',
             address: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
