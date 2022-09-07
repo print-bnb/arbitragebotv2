@@ -7,5 +7,7 @@ module.exports = {
         'function getPair(address, address) view returns (address pair)',
     ],
 
-    routerABI: [],
+    getAmountsOut: [
+        'function getAmountsOut(address factory, uint amountIn, address[] memory path) internal view returns (uint[] memory amounts) ',
+    ],
 }

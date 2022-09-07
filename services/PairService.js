@@ -2,7 +2,11 @@ const { ethers } = require('hardhat')
 const fs = require('fs')
 
 // CONSTANTS
-const { getReservesABI, factoryABI, routerABI } = require('../constants/abi.js')
+const {
+    getReservesABI,
+    factoryABI,
+    getAmountsOut,
+} = require('../constants/abi.js')
 const {
     baseTokens,
     quoteTokens,
@@ -35,35 +39,66 @@ class PairService extends Provider {
     }
 
     // get pair price from pair address
-    getPairPrice = async (address) => {
-        if (address) {
-            const pool = new ethers.Contract(
-                address,
-                getReservesABI,
-                this.provider
-            )
+    getPairPrice = async (
+        amountIn,
+        pairAddress,
+        routerAddress,
+        factoryAddress
+    ) => {
+        const pair = new ethers.Contract(
+            pairAddress,
+            getReservesABI,
+            this.provider
+        )
+        const router = new ethers.Contract(
+            routerAddress,
+            getAmountsOut,
+            this.provider
+        )
 
-            const poolReserves = await pool.getReserves()
-            const token01 = Number(poolReserves.reserve0._hex)
-            const token02 = Number(poolReserves.reserve1._hex)
-            const pairPrice = token02 / token01
+        // function getAmountsOut(address factory, uint amountIn, address[] memory path)
 
-            return { pairPrice, token01, token02 }
-        }
+        // const poolReserves = await pair.getReserves()
+        // const token0 = Number(poolReserves.reserve0._hex)
+        // const token1 = Number(poolReserves.reserve1._hex)
+        // const pairPrice = token1 / token0
 
-        return null
+        // const token0Address = await pair.
+        // const token1Address = await pair.
+        const pairPrice = await router.getAmountsOut(
+            factoryAddress,
+            amountIn,
+            [
+                0x55d398326f99059ff775485246999027b3197955,
+                0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c,
+            ]
+        )
+
+        return { pairPrice, token01, token02 }
     }
 
     getSwapQuote = async (address) => {}
 
     updatePairs = async () => {
         let factories = []
-        for (const key in factoryAddress) {
-            const addr = factoryAddress[key]
-            const factory = new ethers.Contract(addr, factoryABI, this.provider)
+
+        for (let i = 0; i < Object.keys(factoryAddress).length; i++) {
+            const factory = new ethers.Contract(
+                factoryAddress[Object.keys(factoryAddress)[i]],
+                factoryABI,
+                this.provider
+            )
+
+            const router = new ethers.Contract(
+                routerAddress[Object.keys(routerAddress)[i]],
+                getAmountsOut,
+                this.provider
+            )
+
             factories.push({
                 contract: factory,
-                exchange: key,
+                router: router,
+                exchange: Object.keys(factoryAddress)[i],
             })
         }
 
@@ -98,6 +133,8 @@ class PairService extends Provider {
                         tokenPair.pairs.push({
                             address: pair,
                             exchange: factory.exchange,
+                            factory: factory.contract.address,
+                            router: factory.router.address,
                         })
                     } else {
                         console.log(
@@ -148,7 +185,10 @@ class PairService extends Provider {
             for (let j = 0; j < pair.pairs.length; j++) {
                 const exchangeName = pair.pairs[j].exchange
                 const { pairPrice } = await this.getPairPrice(
-                    pair.pairs[j].address
+                    1,
+                    pair.pairs[j].address,
+                    pair.pairs[j].router,
+                    pair.pairs[j].factory
                 )
 
                 exchangesPrices.push({

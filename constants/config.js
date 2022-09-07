@@ -13,7 +13,7 @@ module.exports = {
         KNIGHTSWAP: '0xf0bc2E21a76513aa7CC2730C7A1D6deE0790751f',
     },
 
-    router: {
+    routerAddress: {
         PANCAKE: '0x10ED43C718714eb63d5aA57B78B54704E256024E',
         BISWAP: '0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8',
         BAKERY: '0xcde540d7eafe93ac5fe6233bee57e1270d3e330f',
