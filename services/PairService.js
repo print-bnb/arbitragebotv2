@@ -2,11 +2,13 @@ const { ethers } = require('hardhat')
 const fs = require('fs')
 
 // CONSTANTS
-const { getReservesABI, factoryABI } = require('../constants/abi.js')
+const { getReservesABI, factoryABI, routerABI } = require('../constants/abi.js')
 const {
     baseTokens,
     quoteTokens,
     factoryAddress,
+    routerAddress,
+    tradingFees,
 } = require('../constants/config')
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 const pairFile = './pairs.json'
@@ -44,9 +46,9 @@ class PairService extends Provider {
             const poolReserves = await pool.getReserves()
             const token01 = Number(poolReserves.reserve0._hex)
             const token02 = Number(poolReserves.reserve1._hex)
-            const price = token02 / token01
+            const pairPrice = token02 / token01
 
-            return price
+            return { pairPrice, token01, token02 }
         }
 
         return null
@@ -141,13 +143,15 @@ class PairService extends Provider {
         for (let i = 0; i < pairs.length; i++) {
             const pair = pairs[i]
             const symbols = pair.symbols
-            let exchange = []
+            let exchangesPrices = []
 
             for (let j = 0; j < pair.pairs.length; j++) {
                 const exchangeName = pair.pairs[j].exchange
-                const pairPrice = await this.getPairPrice(pair.pairs[j].address)
+                const { pairPrice } = await this.getPairPrice(
+                    pair.pairs[j].address
+                )
 
-                exchange.push({
+                exchangesPrices.push({
                     price: pairPrice,
                     name: exchangeName,
                 })
@@ -156,21 +160,17 @@ class PairService extends Provider {
             }
 
             // get exchange in and out
-            exchange.sort(this.compare)
-
-            const exchangeIn = exchange[0]
-            const exchangeOut = exchange.pop()
+            exchangesPrices.sort(this.compare)
 
             console.log(
-                `We are going to BUY on ${exchangeIn.name} to SELL on ${exchangeOut.name}`
+                `We are going to BUY on ${
+                    exchangesPrices[exchangesPrices.length - 1].name
+                } to SELL on ${exchangesPrices[0].name}`
             )
 
             // calculate net profit
-            const priceService = new PriceService(fee)
-            const profit = await priceService.calculateNetProfit(
-                exchangeIn.price,
-                exchangeOut.price
-            )
+            const priceService = new PriceService(tradingFees)
+            const profit = await priceService.computeUnitProfit(exchangesPrices)
 
             console.log(
                 `This trade is profitable ? ${profit > 0 ? 'YES' : 'NO'}`

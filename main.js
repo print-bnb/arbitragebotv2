@@ -14,5 +14,5 @@ const refreshPairs = async () => {
     }
 }
 
-refreshPairs()
-// startArbitrage()
+// refreshPairs()
+startArbitrage()

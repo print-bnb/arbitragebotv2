@@ -1,10 +1,21 @@
 class PriceService {
-    constructor(fee) {
-        this.fee = fee
+    constructor(tradingFees) {
+        this.tradingFees = tradingFees
     }
 
-    calculateNetProfit = (priceA, priceB) => {
-        return priceA - priceB - this.fee
+    computeUnitProfit = (exchangesPrices) => {
+        let priceRatio =
+            exchangesPrices[exchangesPrices.length - 1].price /
+            exchangesPrices[0].price
+        let buyFees =
+            (100 -
+                this.tradingFees[
+                    exchangesPrices[exchangesPrices.length - 1].name
+                ]) /
+            100
+        let sellFees = (100 - this.tradingFees[exchangesPrices[0].name]) / 100
+
+        return priceRatio * buyFees * sellFees - 1
     }
 }
 
