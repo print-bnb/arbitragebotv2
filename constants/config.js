@@ -1,6 +1,8 @@
 module.exports = {
     provider: 'https://bsc-dataseed.binance.org',
 
+    ZERO_ADDRESS: '0x0000000000000000000000000000000000000000',
+
     factoryAddress: {
         PANCAKE: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
         BISWAP: '0x858E3312ed3A876947EA49d572A7C42DE08af7EE',
