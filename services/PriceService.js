@@ -14,7 +14,7 @@ class PriceService {
                 ]) /
             100
         let sellFees = (100 - this.tradingFees[exchangesPrices[0].name]) / 100
-        console.log(priceRatio * buyFees * sellFees - 1)
+
         return priceRatio * buyFees * sellFees - 1
     }
 

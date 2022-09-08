@@ -111,7 +111,9 @@ class PairService extends Provider {
                     quoteToken.symbol === baseToken.symbol ||
                     tokenPairs.some((obj) =>
                         obj.symbols.includes(duplicateSymbols)
-                    )
+                    ) ||
+                    symbols === 'BUSD-USDT' ||
+                    symbols == 'USDT-BUSD'
                 )
                     continue
 
