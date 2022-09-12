@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const PairService = require('./services/PairService')
 const pairService = new PairService()
 

@@ -1,5 +1,5 @@
 module.exports = {
-    provider: 'https://bsc-dataseed.binance.org',
+    provider: process.env.WWS_ENDPOINT,
 
     ZERO_ADDRESS: '0x0000000000000000000000000000000000000000',
 
