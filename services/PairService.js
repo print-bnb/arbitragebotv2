@@ -37,56 +37,6 @@ class PairService extends Provider {
         return pairs
     }
 
-    // get pair price from pair address
-    getPairPrice = async (amountIn, pairAddress, routerAddress) => {
-        const pairContractInstance = new ethers.Contract(
-            pairAddress,
-            pairABI,
-            this.provider
-        )
-        const routerContractInstance = new ethers.Contract(
-            routerAddress,
-            routerABI,
-            this.provider
-        )
-
-        //getting reserves
-        const poolReserves = pairContractInstance.getReserves()
-
-        //quotation with fees
-        let addressToken0 = pairContractInstance.token0()
-        let addressToken1 = pairContractInstance.token1()
-
-        let [fromPoolReserves, fromToken0, fromToken1] =
-            await Promise.allSettled([
-                poolReserves,
-                addressToken0,
-                addressToken1,
-            ])
-
-        const token0 = Number(
-            ethers.utils.formatEther(fromPoolReserves.value[0])
-        )
-        const token1 = Number(
-            ethers.utils.formatEther(fromPoolReserves.value[1])
-        )
-        const pairPrice = token1 / token0
-
-        const path = [fromToken0.value, fromToken1.value]
-
-        const pairPriceArray = await routerContractInstance.getAmountsOut(
-            ethers.utils.parseUnits(amountIn, 18),
-            path
-        )
-
-        return {
-            pairPriceWithFees: Number(
-                ethers.utils.formatEther(pairPriceArray[1])
-            ),
-            pairPriceWithoutFees: pairPrice,
-        }
-    }
-
     updatePairs = async () => {
         let exchangesContracts = []
 
@@ -185,17 +135,6 @@ class PairService extends Provider {
         )
     }
 
-    // function to sort array by price
-    compare = (a, b) => {
-        if (a.pairPriceWithFees < b.pairPriceWithFees) {
-            return -1
-        }
-        if (a.pairPriceWithFees > b.pairPriceWithFees) {
-            return 1
-        }
-        return 0
-    }
-
     // identify opportunites from array of pairs => use getAllPairs()
     getOpportunities = async (pairs) => {
         for (const pair of pairs) {
@@ -206,7 +145,7 @@ class PairService extends Provider {
                 const exchangeName = singleExchangePair.exchange.name
 
                 const { pairPriceWithFees, pairPriceWithoutFees } =
-                    await this.getPairPrice(
+                    await priceService.getPairPrice(
                         '1',
                         singleExchangePair.address,
                         singleExchangePair.exchange.routerAddress
@@ -230,7 +169,9 @@ class PairService extends Provider {
             }
 
             // get exchange in and out
-            exchangesPrices.sort(this.compare)
+            exchangesPrices.sort(
+                (a, b) => a.pairPriceWithFees - b.pairPriceWithFees
+            )
 
             console.log(
                 `We are going to BUY ${pair.baseToken.symbol} on ${
