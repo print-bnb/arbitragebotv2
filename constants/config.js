@@ -39,7 +39,7 @@ module.exports = {
         KNIGHTSWAP: 0.2,
     },
 
-    baseTokens: {
+    quoteTokens: {
         usdt: {
             symbol: 'USDT',
             address: '0x55d398326f99059ff775485246999027b3197955',
@@ -54,7 +54,7 @@ module.exports = {
         },
     },
 
-    quoteTokens: {
+    baseTokens: {
         usdt: {
             symbol: 'USDT',
             address: '0x55d398326f99059ff775485246999027b3197955',

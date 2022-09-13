@@ -51,17 +51,28 @@ class PairService extends Provider {
         )
 
         //getting reserves
-        const poolReserves = await pairContractInstance.getReserves()
-
-        const token0 = Number(ethers.utils.formatEther(poolReserves[0]))
-        const token1 = Number(ethers.utils.formatEther(poolReserves[1]))
-        const pairPrice = token0 / token1
+        const poolReserves = pairContractInstance.getReserves()
 
         //quotation with fees
-        let addressToken0 = await pairContractInstance.token0()
-        let addressToken1 = await pairContractInstance.token1()
+        let addressToken0 = pairContractInstance.token0()
+        let addressToken1 = pairContractInstance.token1()
 
-        const path = [addressToken1, addressToken0]
+        let [fromPoolReserves, fromToken0, fromToken1] =
+            await Promise.allSettled([
+                poolReserves,
+                addressToken0,
+                addressToken1,
+            ])
+
+        const token0 = Number(
+            ethers.utils.formatEther(fromPoolReserves.value[0])
+        )
+        const token1 = Number(
+            ethers.utils.formatEther(fromPoolReserves.value[1])
+        )
+        const pairPrice = token1 / token0
+
+        const path = [fromToken0.value, fromToken1.value]
 
         const pairPriceArray = await routerContractInstance.getAmountsOut(
             ethers.utils.parseUnits(amountIn, 18),
@@ -104,8 +115,8 @@ class PairService extends Provider {
             const baseToken = baseTokens[key]
             for (const quoteKey in quoteTokens) {
                 const quoteToken = quoteTokens[quoteKey]
-                const symbols = `${quoteToken.symbol}-${baseToken.symbol}`
-                const duplicateSymbols = `${baseToken.symbol}-${quoteToken.symbol}`
+                const symbols = `${baseToken.symbol}-${quoteToken.symbol}`
+                const duplicateSymbols = `${quoteToken.symbol}-${baseToken.symbol}`
 
                 if (
                     quoteToken.symbol === baseToken.symbol ||
@@ -117,7 +128,12 @@ class PairService extends Provider {
                 )
                     continue
 
-                let tokenPair = { symbols, pairs: [] }
+                let tokenPair = {
+                    symbols,
+                    baseToken,
+                    quoteToken,
+                    pairs: [],
+                }
 
                 for (const exchange of exchangesContracts) {
                     console.log('-------')
