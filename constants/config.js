@@ -9,7 +9,7 @@ module.exports = {
         // BAKERY: '0x01bF7C66c6BD861915CdaaE475042d3c4BaE16A7',
         // MDEX: '0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8',
         // JULSWAP: '0x553990F2CBA90272390f62C5BDb1681fFc899675',
-        APESWAP: '0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6',
+        // APESWAP: '0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6',
         // NOMISWAP: '0xd6715a8be3944ec72738f0bfdc739d48c3c29349',
         // BABYSWAP: '0x86407bEa2078ea5f5EB5A52B2caA963bC1F889Da',
         // KNIGHTSWAP: '0xf0bc2E21a76513aa7CC2730C7A1D6deE0790751f',
@@ -21,7 +21,7 @@ module.exports = {
         // BAKERY: '0xcde540d7eafe93ac5fe6233bee57e1270d3e330f',
         // MDEX: '0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8',
         // JULSWAP: '0xbd67d157502A23309Db761c41965600c2Ec788b2',
-        APESWAP: '0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7',
+        // APESWAP: '0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7',
         // NOMISWAP: '0xd654953d746f0b114d1f85332dc43446ac79413d',
         // BABYSWAP: '0x325E343f1dE602396E256B67eFd1F61C3A6B38Bd',
         // KNIGHTSWAP: '0x05E61E0cDcD2170a76F9568a110CEe3AFdD6c46f',
@@ -55,18 +55,18 @@ module.exports = {
     },
 
     baseTokens: {
-        usdt: {
-            symbol: 'USDT',
-            address: '0x55d398326f99059ff775485246999027b3197955',
-        },
-        wbnb: {
-            symbol: 'WBNB',
-            address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
-        },
-        busd: {
-            symbol: 'BUSD',
-            address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-        },
+        // usdt: {
+        //     symbol: 'USDT',
+        //     address: '0x55d398326f99059ff775485246999027b3197955',
+        // },
+        // wbnb: {
+        //     symbol: 'WBNB',
+        //     address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+        // },
+        // busd: {
+        //     symbol: 'BUSD',
+        //     address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+        // },
         eth: {
             symbol: 'ETH',
             address: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',

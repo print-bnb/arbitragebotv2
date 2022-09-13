@@ -1,79 +1,5 @@
 [
     {
-        "symbols": "USDT-WBNB",
-        "baseToken": {
-            "symbol": "USDT",
-            "address": "0x55d398326f99059ff775485246999027b3197955"
-        },
-        "quoteToken": {
-            "symbol": "WBNB",
-            "address": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
-        },
-        "pairs": [
-            {
-                "address": "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0x8840C6252e2e86e545deFb6da98B2a0E26d8C1BA",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            },
-            {
-                "address": "0x83C5b5b309EE8E232Fe9dB217d394e262a71bCC0",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
-                }
-            }
-        ]
-    },
-    {
-        "symbols": "WBNB-BUSD",
-        "baseToken": {
-            "symbol": "WBNB",
-            "address": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
-        },
-        "quoteToken": {
-            "symbol": "BUSD",
-            "address": "0xe9e7cea3dedca5984780bafc599bd69add087d56"
-        },
-        "pairs": [
-            {
-                "address": "0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            },
-            {
-                "address": "0x51e6D27FA57373d8d4C256231241053a70Cb1d93",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
-                }
-            }
-        ]
-    },
-    {
         "symbols": "ETH-USDT",
         "baseToken": {
             "symbol": "ETH",
@@ -98,14 +24,6 @@
                     "name": "BISWAP",
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            },
-            {
-                "address": "0xF5d1FB15a517Bc9F7568751c6a42545CFf28465b",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
                 }
             }
         ]
@@ -136,14 +54,6 @@
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
                 }
-            },
-            {
-                "address": "0xA0C3Ef24414ED9C9B456740128d8E63D016A9e11",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
-                }
             }
         ]
     },
@@ -172,14 +82,6 @@
                     "name": "BISWAP",
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            },
-            {
-                "address": "0xb0AEbBC35D98387c63a6E87cd2CF67ec2e5A5851",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
                 }
             }
         ]
@@ -210,14 +112,6 @@
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
                 }
-            },
-            {
-                "address": "0x84Ad6f8100cf7D2476107CeFB1E12FCc0db2cB70",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
-                }
             }
         ]
     },
@@ -247,14 +141,6 @@
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
                 }
-            },
-            {
-                "address": "0x1E1aFE9D9c5f290d8F6996dDB190bd111908A43D",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
-                }
             }
         ]
     },
@@ -283,14 +169,6 @@
                     "name": "BISWAP",
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            },
-            {
-                "address": "0xd296aF3aeF3aB6C599065e7c0b564C176bF0816C",
-                "exchange": {
-                    "name": "APESWAP",
-                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
-                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
                 }
             }
         ]

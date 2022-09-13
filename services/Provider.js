@@ -5,6 +5,8 @@ class Provider {
     constructor() {
         this.provider = new ethers.providers.WebSocketProvider(provider)
     }
+
+    getProvider = () => this.provider
 }
 
 module.exports = Provider

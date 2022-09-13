@@ -233,9 +233,11 @@ class PairService extends Provider {
             exchangesPrices.sort(this.compare)
 
             console.log(
-                `We are going to BUY on ${
+                `We are going to BUY ${pair.baseToken.symbol} on ${
                     exchangesPrices[exchangesPrices.length - 1].name
-                } to SELL on ${exchangesPrices[0].name}`
+                } to SELL ${pair.quoteToken.symbol} on ${
+                    exchangesPrices[0].name
+                }`
             )
 
             // calculate net profit
