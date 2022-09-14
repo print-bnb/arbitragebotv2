@@ -3,12 +3,14 @@ require('dotenv').config()
 const Provider = require('./services/Provider')
 const PairService = require('./services/PairService')
 const pairService = new PairService()
+const PriceService = require('./services/PriceService')
+const priceService = new PriceService()
 const providerService = new Provider()
 
 const startArbitrage = async () => {
     let start = Date.now()
     const pairs = await pairService.getAllPairs()
-    await pairService.getOpportunities(pairs)
+    await priceService.getAllPrices(pairs)
     console.log(Date.now() - start)
 }
 
@@ -20,13 +22,13 @@ const refreshPairs = async () => {
     }
 }
 
-// async function main() {
-//     providerService.getProvider().on('block', async (blockNumber) => {
-//         startArbitrage()
-//     })
-// }
+async function main() {
+    providerService.getProvider().on('block', async (blockNumber) => {
+        startArbitrage()
+    })
+}
 
-// main()
+main()
 
-startArbitrage()
+// startArbitrage()
 // refreshPairs()

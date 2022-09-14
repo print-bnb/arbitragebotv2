@@ -1,18 +1,20 @@
 const { ethers } = require('hardhat')
+const axios = require('axios')
+const { binanceEndpoint } = require('../constants/config')
 
-const { factoryABI, routerABI, pairABI } = require('../constants/abi.js')
+const { routerABI, pairABI } = require('../constants/abi.js')
 
 const Provider = require('./Provider.js')
 
 class PriceService extends Provider {
-    constructor(tradingFees) {
+    constructor() {
         super()
-        this.tradingFees = tradingFees
     }
 
     // get pair price from pair address
     getPairPrice = async (
-        amountIn,
+        amountBaseToken,
+        amountQuoteToken,
         baseTokenAddress,
         pairAddress,
         routerAddress
@@ -63,51 +65,78 @@ class PriceService extends Provider {
             pathBuy = [addressToken1, addressToken0]
         }
 
-        const pairPriceArraySell = await routerContractInstance.getAmountsOut(
-            ethers.utils.parseUnits(amountIn, 18),
+        // selling amountIn of baseToken (token0) for amountOut (unknown) of quoteToken (token1)
+        let pairPriceArraySell = routerContractInstance.getAmountsOut(
+            ethers.utils.parseUnits(amountBaseToken, 18),
             pathSell
         )
-        let amountInQuoteToken = Number(amountIn) * pairPrice
 
-        const pairPriceArrayBuy = await routerContractInstance.getAmountsOut(
-            ethers.utils.parseUnits(
-                amountInQuoteToken.toFixed(18).toString(),
-                18
-            ),
+        // buying amountIn (unknown) of baseToken (token0) with amountInQuoteToken of quoteToken (token1)
+        let pairPriceArrayBuy = routerContractInstance.getAmountsOut(
+            ethers.utils.parseUnits(amountQuoteToken, 18),
             pathBuy
         )
 
+        let [sell, buy] = await Promise.allSettled([
+            pairPriceArraySell,
+            pairPriceArrayBuy,
+        ])
+
         return {
-            pairPriceWithFeesSell:
-                Number(ethers.utils.formatEther(pairPriceArraySell[1])) /
-                Number(ethers.utils.formatEther(pairPriceArraySell[0])),
-            pairPriceWithFeesBuy:
-                Number(ethers.utils.formatEther(pairPriceArrayBuy[0])) /
-                Number(ethers.utils.formatEther(pairPriceArrayBuy[1])),
-            pairPriceWithoutFees: pairPrice,
+            sell:
+                Number(ethers.utils.formatEther(sell.value[1])) /
+                Number(ethers.utils.formatEther(sell.value[0])),
+            reserve: pairPrice,
+            buy:
+                Number(ethers.utils.formatEther(buy.value[0])) /
+                Number(ethers.utils.formatEther(buy.value[1])),
         }
     }
 
-    computeUnitProfit = (exchangesPrices) => {
-        let priceRatio =
-            exchangesPrices[exchangesPrices.length - 1].pairPriceWithoutFees /
-            exchangesPrices[0].pairPriceWithoutFees
-        let buyFees =
-            (100 -
-                this.tradingFees[
-                    exchangesPrices[exchangesPrices.length - 1].name
-                ]) /
-            100
-        let sellFees = (100 - this.tradingFees[exchangesPrices[0].name]) / 100
+    getAllPrices = async (pairs) => {
+        let exchangesPrices = []
+        let i = 0
 
-        return priceRatio * buyFees * sellFees - 1
-    }
+        // price from DEX are calculated for trading 1 baseToken against
+        // an unknown amount of quoteToken
+        let amountBaseToken = '1'
 
-    computePriceWithFees = (pairPriceWithoutFees, exchangeName) => {
-        return (
-            (pairPriceWithoutFees * (100 - this.tradingFees[exchangeName])) /
-            100
-        )
+        // external prices are taken from binance public api
+        // values are matching the pairs.json pairs
+        const { data } = await axios.get(binanceEndpoint)
+        let externalPrices = [
+            data[2].price,
+            data[4].price,
+            1 / data[1].price,
+            data[3].price,
+            1 / data[0].price,
+        ]
+
+        // here's the amount of quoteToken we get from selling 1 baseToken
+        let amountQuoteToken = (
+            Number(amountBaseToken) * externalPrices[i]
+        ).toString()
+
+        for (const pair of pairs) {
+            const symbols = pair.symbols
+            exchangesPrices[i] = { symbols }
+
+            for (const singleExchangePair of pair.pairs) {
+                const exchangeName = singleExchangePair.exchange.name
+
+                exchangesPrices[i][exchangeName] = await this.getPairPrice(
+                    amountBaseToken,
+                    amountQuoteToken,
+                    pair.baseToken.address,
+                    singleExchangePair.address,
+                    singleExchangePair.exchange.routerAddress
+                )
+            }
+            i++
+        }
+
+        console.log(exchangesPrices)
+        return exchangesPrices
     }
 }
 

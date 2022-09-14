@@ -1,6 +1,9 @@
 module.exports = {
     provider: process.env.WWS_ENDPOINT,
 
+    binanceEndpoint:
+        'https://api.binance.com/api/v3/ticker/price?symbols=["BNBBUSD","ETHBUSD","BTCBUSD","BNBETH","BNBBTC"]',
+
     ZERO_ADDRESS: '0x0000000000000000000000000000000000000000',
 
     factoryAddress: {
@@ -40,10 +43,10 @@ module.exports = {
     },
 
     quoteTokens: {
-        usdc: {
-            symbol: 'USDC',
-            address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
-        },
+        // usdc: {
+        //     symbol: 'USDC',
+        //     address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
+        // },
         usdt: {
             symbol: 'USDT',
             address: '0x55d398326f99059ff775485246999027b3197955',
@@ -52,17 +55,17 @@ module.exports = {
             symbol: 'WBNB',
             address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
         },
-        busd: {
-            symbol: 'BUSD',
-            address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-        },
+        // busd: {
+        //     symbol: 'BUSD',
+        //     address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+        // },
     },
 
     baseTokens: {
-        usdc: {
-            symbol: 'USDC',
-            address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
-        },
+        // usdc: {
+        //     symbol: 'USDC',
+        //     address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
+        // },
         usdt: {
             symbol: 'USDT',
             address: '0x55d398326f99059ff775485246999027b3197955',
@@ -71,10 +74,10 @@ module.exports = {
             symbol: 'WBNB',
             address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
         },
-        busd: {
-            symbol: 'BUSD',
-            address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-        },
+        // busd: {
+        //     symbol: 'BUSD',
+        //     address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+        // },
         eth: {
             symbol: 'ETH',
             address: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',

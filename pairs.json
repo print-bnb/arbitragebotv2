@@ -1,34 +1,5 @@
 [
     {
-        "symbols": "WBNB-USDC",
-        "baseToken": {
-            "symbol": "WBNB",
-            "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
-        },
-        "quoteToken": {
-            "symbol": "USDC",
-            "address": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
-        },
-        "pairs": [
-            {
-                "address": "0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0x06Cd679121Ec37B0A2FD673D4976B09d81791856",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            }
-        ]
-    },
-    {
         "symbols": "WBNB-USDT",
         "baseToken": {
             "symbol": "WBNB",
@@ -49,64 +20,6 @@
             },
             {
                 "address": "0x8840C6252e2e86e545deFb6da98B2a0E26d8C1BA",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            }
-        ]
-    },
-    {
-        "symbols": "WBNB-BUSD",
-        "baseToken": {
-            "symbol": "WBNB",
-            "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
-        },
-        "quoteToken": {
-            "symbol": "BUSD",
-            "address": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
-        },
-        "pairs": [
-            {
-                "address": "0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            }
-        ]
-    },
-    {
-        "symbols": "ETH-USDC",
-        "baseToken": {
-            "symbol": "ETH",
-            "address": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
-        },
-        "quoteToken": {
-            "symbol": "USDC",
-            "address": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
-        },
-        "pairs": [
-            {
-                "address": "0xEa26B78255Df2bBC31C1eBf60010D78670185bD0",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0x49F764eE3Ea8A18901C3f2662B0B76422eD57d74",
                 "exchange": {
                     "name": "BISWAP",
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
@@ -174,64 +87,6 @@
         ]
     },
     {
-        "symbols": "ETH-BUSD",
-        "baseToken": {
-            "symbol": "ETH",
-            "address": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
-        },
-        "quoteToken": {
-            "symbol": "BUSD",
-            "address": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
-        },
-        "pairs": [
-            {
-                "address": "0x7213a321F1855CF1779f42c0CD85d3D95291D34C",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0xCfc551DaF4437E9e6516747c30012F094b74880a",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            }
-        ]
-    },
-    {
-        "symbols": "BTCB-USDC",
-        "baseToken": {
-            "symbol": "BTCB",
-            "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
-        },
-        "quoteToken": {
-            "symbol": "USDC",
-            "address": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
-        },
-        "pairs": [
-            {
-                "address": "0x2dF244535624761f6fCc381CaE3e9b903429d9Ff",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0xA8A42a8d7d44b64eeE0Da73465dFbdD44Af24617",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            }
-        ]
-    },
-    {
         "symbols": "BTCB-USDT",
         "baseToken": {
             "symbol": "BTCB",
@@ -281,35 +136,6 @@
             },
             {
                 "address": "0xC7e9d76ba11099AF3F330ff829c5F442d571e057",
-                "exchange": {
-                    "name": "BISWAP",
-                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
-                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
-                }
-            }
-        ]
-    },
-    {
-        "symbols": "BTCB-BUSD",
-        "baseToken": {
-            "symbol": "BTCB",
-            "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
-        },
-        "quoteToken": {
-            "symbol": "BUSD",
-            "address": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
-        },
-        "pairs": [
-            {
-                "address": "0xF45cd219aEF8618A92BAa7aD848364a158a24F33",
-                "exchange": {
-                    "name": "PANCAKE",
-                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-                }
-            },
-            {
-                "address": "0x15B868fB4b0358F26ACfdb11f20309593bf2fE72",
                 "exchange": {
                     "name": "BISWAP",
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
