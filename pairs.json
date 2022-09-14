@@ -1,5 +1,63 @@
 [
     {
+        "symbols": "USDT-WBNB",
+        "baseToken": {
+            "symbol": "USDT",
+            "address": "0x55d398326f99059fF775485246999027B3197955"
+        },
+        "quoteToken": {
+            "symbol": "WBNB",
+            "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+        },
+        "pairs": [
+            {
+                "address": "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE",
+                "exchange": {
+                    "name": "PANCAKE",
+                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
+                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+                }
+            },
+            {
+                "address": "0x8840C6252e2e86e545deFb6da98B2a0E26d8C1BA",
+                "exchange": {
+                    "name": "BISWAP",
+                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
+                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
+                }
+            }
+        ]
+    },
+    {
+        "symbols": "WBNB-BUSD",
+        "baseToken": {
+            "symbol": "WBNB",
+            "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+        },
+        "quoteToken": {
+            "symbol": "BUSD",
+            "address": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
+        },
+        "pairs": [
+            {
+                "address": "0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16",
+                "exchange": {
+                    "name": "PANCAKE",
+                    "factoryAddress": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
+                    "routerAddress": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+                }
+            },
+            {
+                "address": "0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc",
+                "exchange": {
+                    "name": "BISWAP",
+                    "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
+                    "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
+                }
+            }
+        ]
+    },
+    {
         "symbols": "ETH-USDT",
         "baseToken": {
             "symbol": "ETH",
@@ -7,7 +65,7 @@
         },
         "quoteToken": {
             "symbol": "USDT",
-            "address": "0x55d398326f99059ff775485246999027b3197955"
+            "address": "0x55d398326f99059fF775485246999027B3197955"
         },
         "pairs": [
             {
@@ -36,7 +94,7 @@
         },
         "quoteToken": {
             "symbol": "WBNB",
-            "address": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+            "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
         },
         "pairs": [
             {
@@ -65,7 +123,7 @@
         },
         "quoteToken": {
             "symbol": "BUSD",
-            "address": "0xe9e7cea3dedca5984780bafc599bd69add087d56"
+            "address": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
         },
         "pairs": [
             {
@@ -90,11 +148,11 @@
         "symbols": "BTCB-USDT",
         "baseToken": {
             "symbol": "BTCB",
-            "address": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c"
+            "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
         },
         "quoteToken": {
             "symbol": "USDT",
-            "address": "0x55d398326f99059ff775485246999027b3197955"
+            "address": "0x55d398326f99059fF775485246999027B3197955"
         },
         "pairs": [
             {
@@ -119,11 +177,11 @@
         "symbols": "BTCB-WBNB",
         "baseToken": {
             "symbol": "BTCB",
-            "address": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c"
+            "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
         },
         "quoteToken": {
             "symbol": "WBNB",
-            "address": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+            "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
         },
         "pairs": [
             {
@@ -148,11 +206,11 @@
         "symbols": "BTCB-BUSD",
         "baseToken": {
             "symbol": "BTCB",
-            "address": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c"
+            "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
         },
         "quoteToken": {
             "symbol": "BUSD",
-            "address": "0xe9e7cea3dedca5984780bafc599bd69add087d56"
+            "address": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
         },
         "pairs": [
             {

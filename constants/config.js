@@ -55,18 +55,18 @@ module.exports = {
     },
 
     baseTokens: {
-        // usdt: {
-        //     symbol: 'USDT',
-        //     address: '0x55d398326f99059ff775485246999027b3197955',
-        // },
-        // wbnb: {
-        //     symbol: 'WBNB',
-        //     address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
-        // },
-        // busd: {
-        //     symbol: 'BUSD',
-        //     address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-        // },
+        usdt: {
+            symbol: 'USDT',
+            address: '0x55d398326f99059ff775485246999027b3197955',
+        },
+        wbnb: {
+            symbol: 'WBNB',
+            address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+        },
+        busd: {
+            symbol: 'BUSD',
+            address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+        },
         eth: {
             symbol: 'ETH',
             address: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',

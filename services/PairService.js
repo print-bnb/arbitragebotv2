@@ -84,6 +84,12 @@ class PairService extends Provider {
                     quoteToken,
                     pairs: [],
                 }
+                tokenPair.baseToken.address = ethers.utils.getAddress(
+                    tokenPair.baseToken.address
+                )
+                tokenPair.quoteToken.address = ethers.utils.getAddress(
+                    tokenPair.quoteToken.address
+                )
 
                 for (const exchange of exchangesContracts) {
                     console.log('-------')
@@ -137,6 +143,7 @@ class PairService extends Provider {
 
     // identify opportunites from array of pairs => use getAllPairs()
     getOpportunities = async (pairs) => {
+        let amountIn = '1'
         for (const pair of pairs) {
             const symbols = pair.symbols
             let exchangesPrices = []
@@ -144,12 +151,16 @@ class PairService extends Provider {
             for (const singleExchangePair of pair.pairs) {
                 const exchangeName = singleExchangePair.exchange.name
 
-                const { pairPriceWithFees, pairPriceWithoutFees } =
-                    await priceService.getPairPrice(
-                        '1',
-                        singleExchangePair.address,
-                        singleExchangePair.exchange.routerAddress
-                    )
+                const {
+                    pairPriceWithFeesSell,
+                    pairPriceWithFeesBuy,
+                    pairPriceWithoutFees,
+                } = await priceService.getPairPrice(
+                    amountIn,
+                    pair.baseToken.address,
+                    singleExchangePair.address,
+                    singleExchangePair.exchange.routerAddress
+                )
 
                 let pairPriceWithFeesComputed =
                     priceService.computePriceWithFees(
@@ -157,20 +168,23 @@ class PairService extends Provider {
                         exchangeName
                     )
                 exchangesPrices.push({
-                    pairPriceWithFees,
+                    pairPriceWithFeesSell,
                     pairPriceWithFeesComputed,
                     pairPriceWithoutFees,
                     name: exchangeName,
                 })
 
                 console.log(
-                    `${symbols} on ${exchangeName} : ${pairPriceWithFees} with Fees, ${pairPriceWithFeesComputed} computedFees and ${pairPriceWithoutFees} without Fees`
+                    `${symbols} on ${exchangeName} : BUYER rate (bid) ${pairPriceWithFeesSell} and SELLER rate (ask) ${pairPriceWithFeesBuy} with Fees`
+                )
+                console.log(
+                    `*******************   From reserves: ${pairPriceWithFeesComputed} computedFees and ${pairPriceWithoutFees} without Fees`
                 )
             }
 
             // get exchange in and out
             exchangesPrices.sort(
-                (a, b) => a.pairPriceWithFees - b.pairPriceWithFees
+                (a, b) => a.pairPriceWithFeesSell - b.pairPriceWithFeesSell
             )
 
             console.log(
@@ -188,7 +202,7 @@ class PairService extends Provider {
                 `This trade is profitable ? ${profit > 0 ? 'YES' : 'NO'}`
             )
             console.log(`Profit: ${profit}$`)
-            console.log('-------------')
+            console.log('-------------\n-------------')
         }
     }
 }

@@ -11,7 +11,12 @@ class PriceService extends Provider {
     }
 
     // get pair price from pair address
-    getPairPrice = async (amountIn, pairAddress, routerAddress) => {
+    getPairPrice = async (
+        amountIn,
+        baseTokenAddress,
+        pairAddress,
+        routerAddress
+    ) => {
         const pairContractInstance = new ethers.Contract(
             pairAddress,
             pairABI,
@@ -37,25 +42,42 @@ class PriceService extends Provider {
                 addressToken1,
             ])
 
+        addressToken0 = fromToken0.value
+        addressToken1 = fromToken1.value
+
         const token0 = Number(
             ethers.utils.formatEther(fromPoolReserves.value[0])
         )
         const token1 = Number(
             ethers.utils.formatEther(fromPoolReserves.value[1])
         )
-        const pairPrice = token1 / token0
 
-        const path = [fromToken0.value, fromToken1.value]
+        let pairPrice, pathSell, pathBuy
+        if (baseTokenAddress !== addressToken0) {
+            pairPrice = token0 / token1
+            pathSell = [addressToken1, addressToken0]
+            pathBuy = [addressToken0, addressToken1]
+        } else {
+            pairPrice = token1 / token0
+            pathSell = [addressToken0, addressToken1]
+            pathBuy = [addressToken1, addressToken0]
+        }
 
-        const pairPriceArray = await routerContractInstance.getAmountsOut(
+        const pairPriceArraySell = await routerContractInstance.getAmountsOut(
             ethers.utils.parseUnits(amountIn, 18),
-            path
+            pathSell
+        )
+        const pairPriceArrayBuy = await routerContractInstance.getAmountsOut(
+            ethers.utils.parseUnits(amountIn, 18),
+            pathBuy
         )
 
         return {
-            pairPriceWithFees: Number(
-                ethers.utils.formatEther(pairPriceArray[1])
+            pairPriceWithFeesSell: Number(
+                ethers.utils.formatEther(pairPriceArraySell[1])
             ),
+            pairPriceWithFeesBuy:
+                1 / Number(ethers.utils.formatEther(pairPriceArrayBuy[1])),
             pairPriceWithoutFees: pairPrice,
         }
     }
