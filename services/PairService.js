@@ -74,7 +74,10 @@ class PairService extends Provider {
                         obj.symbols.includes(duplicateSymbols)
                     ) ||
                     symbols === 'BUSD-USDT' ||
-                    symbols == 'USDT-BUSD'
+                    symbols === 'USDT-BUSD' ||
+                    baseToken.symbol === 'USDT' ||
+                    baseToken.symbol === 'BUSD' ||
+                    baseToken.symbol === 'USDC'
                 )
                     continue
 
@@ -143,6 +146,7 @@ class PairService extends Provider {
 
     // identify opportunites from array of pairs => use getAllPairs()
     getOpportunities = async (pairs) => {
+        // amount of baseToken to trade against quoteToken
         let amountIn = '1'
         for (const pair of pairs) {
             const symbols = pair.symbols

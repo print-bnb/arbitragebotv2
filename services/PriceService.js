@@ -67,17 +67,23 @@ class PriceService extends Provider {
             ethers.utils.parseUnits(amountIn, 18),
             pathSell
         )
+        let amountInQuoteToken = Number(amountIn) * pairPrice
+
         const pairPriceArrayBuy = await routerContractInstance.getAmountsOut(
-            ethers.utils.parseUnits(amountIn, 18),
+            ethers.utils.parseUnits(
+                amountInQuoteToken.toFixed(18).toString(),
+                18
+            ),
             pathBuy
         )
 
         return {
-            pairPriceWithFeesSell: Number(
-                ethers.utils.formatEther(pairPriceArraySell[1])
-            ),
+            pairPriceWithFeesSell:
+                Number(ethers.utils.formatEther(pairPriceArraySell[1])) /
+                Number(ethers.utils.formatEther(pairPriceArraySell[0])),
             pairPriceWithFeesBuy:
-                1 / Number(ethers.utils.formatEther(pairPriceArrayBuy[1])),
+                Number(ethers.utils.formatEther(pairPriceArrayBuy[0])) /
+                Number(ethers.utils.formatEther(pairPriceArrayBuy[1])),
             pairPriceWithoutFees: pairPrice,
         }
     }

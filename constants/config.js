@@ -40,6 +40,10 @@ module.exports = {
     },
 
     quoteTokens: {
+        usdc: {
+            symbol: 'USDC',
+            address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
+        },
         usdt: {
             symbol: 'USDT',
             address: '0x55d398326f99059ff775485246999027b3197955',
@@ -55,6 +59,10 @@ module.exports = {
     },
 
     baseTokens: {
+        usdc: {
+            symbol: 'USDC',
+            address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
+        },
         usdt: {
             symbol: 'USDT',
             address: '0x55d398326f99059ff775485246999027b3197955',
