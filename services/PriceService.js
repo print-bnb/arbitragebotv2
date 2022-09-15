@@ -119,25 +119,46 @@ class PriceService extends Provider {
 
         for (const pair of pairs) {
             const symbols = pair.symbols
-            exchangesPrices[i] = { symbols }
+            const baseToken = pair.baseToken
+            const quoteToken = pair.quoteToken
+
+            exchangesPrices[i] = {
+                symbols,
+                truePrice: externalPrices[i],
+                baseToken,
+                quoteToken,
+            }
+            exchangesPrices[i]['pairs'] = []
 
             for (const singleExchangePair of pair.pairs) {
                 const exchangeName = singleExchangePair.exchange.name
 
-                exchangesPrices[i][exchangeName] = await this.getPairPrice(
+                let prices = await this.getPairPrice(
                     amountBaseToken,
                     amountQuoteToken,
                     pair.baseToken.address,
                     singleExchangePair.address,
                     singleExchangePair.exchange.routerAddress
                 )
+
+                exchangesPrices[i]['pairs'].push({
+                    ...singleExchangePair,
+                    prices,
+                })
             }
             i++
         }
 
-        console.log(exchangesPrices)
         return exchangesPrices
     }
+
+    getGasPrice = async () => {
+        return ethers.utils.formatUnits(await this.provider.getGasPrice())
+    }
+
+    isProfitable = async (allPrices) => {}
+
+    getBiggestProfit = async (isProfitable) => {}
 }
 
 module.exports = PriceService

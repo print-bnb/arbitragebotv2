@@ -9,8 +9,17 @@ const providerService = new Provider()
 
 const startArbitrage = async () => {
     let start = Date.now()
+
     const pairs = await pairService.getAllPairs()
-    await priceService.getAllPrices(pairs)
+    let allPrices = await priceService.getAllPrices(pairs)
+
+    let isProfitable = await priceService.isProfitable(allPrices)
+
+    if (isProfitable.includes(true)) {
+        await priceService.getBiggestProfit(isProfitable)
+        //then execute the trade to get the biggestProfit of all pairs
+    }
+
     console.log(Date.now() - start)
 }
 
