@@ -1,7 +1,7 @@
 require('dotenv').config()
 
-const Provider = require('./services/Provider')
-const providerService = new Provider()
+const BlockchainService = require('./services/BlockchainService')
+const blockchainService = new BlockchainService()
 
 const PairService = require('./services/PairService')
 const pairService = new PairService()
@@ -29,7 +29,7 @@ async function main() {
     // an unknown amount of quoteToken
     let amountBaseToken = ['1.8110', '0.3152', '0.3152', '0.02485', '0.02485']
 
-    providerService.getProvider().on('block', async (blockNumber) => {
+    blockchainService.getProvider().on('block', async (blockNumber) => {
         await startArbitrage(amountBaseToken)
     })
 }

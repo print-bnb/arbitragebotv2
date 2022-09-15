@@ -7,9 +7,9 @@ const _ = require('lodash')
 const { binanceEndpoint } = require('../constants/config')
 const { routerABI, pairABI } = require('../constants/abi.js')
 
-const Provider = require('./Provider.js')
+const BlockchainService = require('./BlockchainService.js')
 
-class PriceService extends Provider {
+class PriceService extends BlockchainService {
     constructor() {
         super()
     }
@@ -153,10 +153,6 @@ class PriceService extends Provider {
         }
 
         return exchangesPrices
-    }
-
-    getGasPrice = async () => {
-        return ethers.utils.formatUnits(await this.provider.getGasPrice())
     }
 
     combineDEXtrades = (allPrices) => {

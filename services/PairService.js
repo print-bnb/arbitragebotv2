@@ -13,11 +13,11 @@ const {
 
 const pairFile = './pairs.json'
 
-const Provider = require('./Provider.js')
+const BlockchainService = require('./BlockchainService.js')
 const PriceService = require('./PriceService.js')
 const priceService = new PriceService(tradingFees)
 
-class PairService extends Provider {
+class PairService extends BlockchainService {
     constructor() {
         super()
     }
