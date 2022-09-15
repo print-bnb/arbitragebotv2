@@ -198,7 +198,7 @@ class PriceService extends Provider {
                 if (profitDir1 > 0) {
                     console.log('Date now -------- ', Date.now())
                     console.log(
-                        `BUY ${pair.baseToken} on ${result['direction1'].direction[0].exchangeBuy} and SELL ${pair.quoteToken} on ${result['direction1'].direction[1].exchangeSell}`
+                        `BUY ${pair.baseToken.symbol} on ${result['direction1'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction1'].direction[1].exchangeSell.name}`
                     )
                     console.log('The profit -------- ', profitDir1)
                 }
@@ -219,7 +219,7 @@ class PriceService extends Provider {
                 if (profitDir2 > 0) {
                     console.log('Date now --------', Date.now())
                     console.log(
-                        `BUY ${pair.baseToken} on ${result['direction2'].direction[0].exchangeBuy} and SELL ${pair.quoteToken} on ${result['direction2'].direction[1].exchangeSell}`
+                        `BUY ${pair.baseToken.symbol} on ${result['direction2'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction2'].direction[1].exchangeSell.name}`
                     )
                     console.log('The profit -------- ', profitDir2)
                 }
