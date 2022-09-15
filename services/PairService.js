@@ -1,9 +1,7 @@
 const { ethers } = require('hardhat')
 const fs = require('fs')
 
-// CONSTANTS
-const { factoryABI, routerABI, pairABI } = require('../constants/abi.js')
-
+const { factoryABI, routerABI } = require('../constants/abi')
 const {
     baseTokens,
     quoteTokens,
@@ -15,7 +13,6 @@ const {
 
 const pairFile = './pairs.json'
 
-// SERVICES
 const Provider = require('./Provider.js')
 const PriceService = require('./PriceService.js')
 const priceService = new PriceService(tradingFees)
@@ -25,7 +22,6 @@ class PairService extends Provider {
         super()
     }
 
-    // get all pairs from json file
     getAllPairs = async () => {
         let pairs = []
         try {

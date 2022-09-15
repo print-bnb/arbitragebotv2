@@ -1,27 +1,20 @@
 require('dotenv').config()
 
 const Provider = require('./services/Provider')
-const PairService = require('./services/PairService')
-const pairService = new PairService()
-const PriceService = require('./services/PriceService')
-const priceService = new PriceService()
 const providerService = new Provider()
 
-const startArbitrage = async () => {
+const PairService = require('./services/PairService')
+const pairService = new PairService()
+
+const PriceService = require('./services/PriceService')
+const priceService = new PriceService()
+
+const startArbitrage = async (amountBaseToken) => {
     let start = Date.now()
-
     const pairs = await pairService.getAllPairs()
-    let allPrices = await priceService.getAllPrices(pairs)
+    let allPrices = await priceService.getAllPrices(pairs, amountBaseToken)
     let allPricesComb = priceService.combineDEXtrades(allPrices)
-    let isProfitable = await priceService.computeProfit(allPricesComb)
-
-    return
-
-    if (isProfitable.includes(true)) {
-        await priceService.getBiggestProfit(isProfitable)
-        //then execute the trade to get the biggestProfit of all pairs
-    }
-
+    let isProfitable = priceService.computeProfit(allPricesComb)
     console.log(Date.now() - start)
 }
 
@@ -33,13 +26,23 @@ const refreshPairs = async () => {
     }
 }
 
-// async function main() {
-//     providerService.getProvider().on('block', async (blockNumber) => {
-//         startArbitrage()
-//     })
-// }
+async function main() {
+    let i = 0
 
-// main()
+    // price from DEX are calculated for trading X amount of baseToken against
+    // an unknown amount of quoteToken
+    let amountBaseToken = ['1.8110', '0.3152', '0.3152', '0.02485', '0.02485']
 
-startArbitrage()
+    providerService.getProvider().on('block', async (blockNumber) => {
+        let condition = i % 10 == 0
+        if (condition) {
+            await startArbitrage(amountBaseToken)
+            console.log(i, i % 10, blockNumber)
+        }
+        i++
+    })
+}
+
+main()
+
 // refreshPairs()

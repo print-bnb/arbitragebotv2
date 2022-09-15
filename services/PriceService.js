@@ -1,14 +1,11 @@
 const { ethers } = require('hardhat')
 const axios = require('axios')
 const fs = require('fs')
-const { binanceEndpoint } = require('../constants/config')
-
-const { routerABI, pairABI } = require('../constants/abi.js')
-
 const combinations = require('lodash.combinations')
 const _ = require('lodash')
 
-const fichierFinal = './fichierFinal.json'
+const { binanceEndpoint } = require('../constants/config')
+const { routerABI, pairABI } = require('../constants/abi.js')
 
 const Provider = require('./Provider.js')
 
@@ -17,7 +14,6 @@ class PriceService extends Provider {
         super()
     }
 
-    // get pair price from pair address
     getPairPrice = async (
         amountBaseToken,
         amountQuoteToken,
@@ -36,10 +32,8 @@ class PriceService extends Provider {
             this.provider
         )
 
-        //getting reserves
         const poolReserves = pairContractInstance.getReserves()
 
-        //quotation with fees
         let addressToken0 = pairContractInstance.token0()
         let addressToken1 = pairContractInstance.token1()
 
@@ -99,13 +93,9 @@ class PriceService extends Provider {
         }
     }
 
-    getAllPrices = async (pairs) => {
+    getAllPrices = async (pairs, amountBaseToken) => {
         let exchangesPrices = []
         let i = 0
-
-        // price from DEX are calculated for trading X amount of baseToken against
-        // an unknown amount of quoteToken
-        let amountBaseToken = ['9', '2', '2', '0.11', '0.11']
 
         // external prices are taken from binance public api
         // values are matching the pairs.json pairs
@@ -205,6 +195,9 @@ class PriceService extends Provider {
                     ],
                     profit: profitDir1,
                 }
+                if (profitDir1 > 0) {
+                    console.log(pair.symbols, Date.now(), result['direction1'])
+                }
 
                 //buy on DEX1 and sell on DEX2
                 let profitDir2 = DEX2.prices.sell - DEX1.prices.buy
@@ -219,22 +212,14 @@ class PriceService extends Provider {
                     ],
                     profit: profitDir2,
                 }
+                if (profitDir2 > 0) {
+                    console.log(pair.symbols, Date.now(), result['direction2'])
+                }
 
                 profitComputation.push(result)
             }
             allPricesComb[i].pairs = profitComputation
         }
-
-        fs.writeFile(
-            fichierFinal,
-            JSON.stringify(allPricesComb),
-            async function (err) {
-                if (err) {
-                    return console.log(err)
-                }
-                console.log('final file updated!')
-            }
-        )
 
         return allPricesComb
     }

@@ -35,11 +35,51 @@
                 }
             },
             {
+                "address": "0x09CB618bf5eF305FadfD2C8fc0C26EeCf8c6D5fd",
+                "exchange": {
+                    "name": "MDEX",
+                    "factoryAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8",
+                    "routerAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8"
+                }
+            },
+            {
+                "address": "0x4d9F415bb0C31C978E3f0d0bA77239126638875e",
+                "exchange": {
+                    "name": "JULSWAP",
+                    "factoryAddress": "0x553990F2CBA90272390f62C5BDb1681fFc899675",
+                    "routerAddress": "0xbd67d157502A23309Db761c41965600c2Ec788b2"
+                }
+            },
+            {
+                "address": "0x83C5b5b309EE8E232Fe9dB217d394e262a71bCC0",
+                "exchange": {
+                    "name": "APESWAP",
+                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
+                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
+                }
+            },
+            {
                 "address": "0xe2Bbf54Dc0ccDD0Cf6270f2aF2f62FF79903Bb27",
                 "exchange": {
                     "name": "NOMISWAP",
                     "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
                     "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
+            },
+            {
+                "address": "0x04580ce6dEE076354e96fED53cb839DE9eFb5f3f",
+                "exchange": {
+                    "name": "BABYSWAP",
+                    "factoryAddress": "0x86407bEa2078ea5f5EB5A52B2caA963bC1F889Da",
+                    "routerAddress": "0x325E343f1dE602396E256B67eFd1F61C3A6B38Bd"
+                }
+            },
+            {
+                "address": "0xb28Ec66a3400B0B8fFF028B121Ed664B9d363CC4",
+                "exchange": {
+                    "name": "KNIGHTSWAP",
+                    "factoryAddress": "0xf0bc2E21a76513aa7CC2730C7A1D6deE0790751f",
+                    "routerAddress": "0x05E61E0cDcD2170a76F9568a110CEe3AFdD6c46f"
                 }
             }
         ]
@@ -80,11 +120,35 @@
                 }
             },
             {
+                "address": "0x0FB881c078434b1C0E4d0B64d8c64d12078b7Ce2",
+                "exchange": {
+                    "name": "MDEX",
+                    "factoryAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8",
+                    "routerAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8"
+                }
+            },
+            {
+                "address": "0xF5d1FB15a517Bc9F7568751c6a42545CFf28465b",
+                "exchange": {
+                    "name": "APESWAP",
+                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
+                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
+                }
+            },
+            {
                 "address": "0xe324aa41eeFd912421C601626A6D5F85CC346B6a",
                 "exchange": {
                     "name": "NOMISWAP",
                     "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
                     "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
+            },
+            {
+                "address": "0xfa0C1bD534784b978b4d5c426836f7c44f5C0b20",
+                "exchange": {
+                    "name": "BABYSWAP",
+                    "factoryAddress": "0x86407bEa2078ea5f5EB5A52B2caA963bC1F889Da",
+                    "routerAddress": "0x325E343f1dE602396E256B67eFd1F61C3A6B38Bd"
                 }
             }
         ]
@@ -125,11 +189,51 @@
                 }
             },
             {
+                "address": "0x82E8F9e7624fA038DfF4a39960F5197A43fa76aa",
+                "exchange": {
+                    "name": "MDEX",
+                    "factoryAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8",
+                    "routerAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8"
+                }
+            },
+            {
+                "address": "0x91243Da8a660B4aB514df152169ee73e9cef9B4b",
+                "exchange": {
+                    "name": "JULSWAP",
+                    "factoryAddress": "0x553990F2CBA90272390f62C5BDb1681fFc899675",
+                    "routerAddress": "0xbd67d157502A23309Db761c41965600c2Ec788b2"
+                }
+            },
+            {
+                "address": "0xA0C3Ef24414ED9C9B456740128d8E63D016A9e11",
+                "exchange": {
+                    "name": "APESWAP",
+                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
+                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
+                }
+            },
+            {
                 "address": "0x13dE257cb86a08753Df938b6ad30d1A456A863e6",
                 "exchange": {
                     "name": "NOMISWAP",
                     "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
                     "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
+            },
+            {
+                "address": "0x12C69cbebb5AeD7C85A01bc2206318fB6c03E940",
+                "exchange": {
+                    "name": "BABYSWAP",
+                    "factoryAddress": "0x86407bEa2078ea5f5EB5A52B2caA963bC1F889Da",
+                    "routerAddress": "0x325E343f1dE602396E256B67eFd1F61C3A6B38Bd"
+                }
+            },
+            {
+                "address": "0x0ddF35e107b6014B5577e87e3BBCECa74df3e09A",
+                "exchange": {
+                    "name": "KNIGHTSWAP",
+                    "factoryAddress": "0xf0bc2E21a76513aa7CC2730C7A1D6deE0790751f",
+                    "routerAddress": "0x05E61E0cDcD2170a76F9568a110CEe3AFdD6c46f"
                 }
             }
         ]
@@ -170,11 +274,35 @@
                 }
             },
             {
+                "address": "0xda28Eb7ABa389C1Ea226A420bCE04Cb565Aafb85",
+                "exchange": {
+                    "name": "MDEX",
+                    "factoryAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8",
+                    "routerAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8"
+                }
+            },
+            {
+                "address": "0x84Ad6f8100cf7D2476107CeFB1E12FCc0db2cB70",
+                "exchange": {
+                    "name": "APESWAP",
+                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
+                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
+                }
+            },
+            {
                 "address": "0xa830F3A087c9A642694f6eEa98778e1c70097754",
                 "exchange": {
                     "name": "NOMISWAP",
                     "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
                     "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
+            },
+            {
+                "address": "0xcF84f1e50eE4FbeFAC8822C06D0ed01a28904c50",
+                "exchange": {
+                    "name": "BABYSWAP",
+                    "factoryAddress": "0x86407bEa2078ea5f5EB5A52B2caA963bC1F889Da",
+                    "routerAddress": "0x325E343f1dE602396E256B67eFd1F61C3A6B38Bd"
                 }
             }
         ]
@@ -215,11 +343,51 @@
                 }
             },
             {
+                "address": "0x969f2556F786a576F32AeF6c1D6618f0221Ec70e",
+                "exchange": {
+                    "name": "MDEX",
+                    "factoryAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8",
+                    "routerAddress": "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8"
+                }
+            },
+            {
+                "address": "0x3F3d9E0803B19DD9002C8184Ae3c1C9d09720682",
+                "exchange": {
+                    "name": "JULSWAP",
+                    "factoryAddress": "0x553990F2CBA90272390f62C5BDb1681fFc899675",
+                    "routerAddress": "0xbd67d157502A23309Db761c41965600c2Ec788b2"
+                }
+            },
+            {
+                "address": "0x1E1aFE9D9c5f290d8F6996dDB190bd111908A43D",
+                "exchange": {
+                    "name": "APESWAP",
+                    "factoryAddress": "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6",
+                    "routerAddress": "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7"
+                }
+            },
+            {
                 "address": "0x36451A95D5a2F0C25530331F382E4D432CAecB17",
                 "exchange": {
                     "name": "NOMISWAP",
                     "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
                     "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
+            },
+            {
+                "address": "0x7C728d5842C22bCDf59a0E32e7C4CE3Fb2bC25C4",
+                "exchange": {
+                    "name": "BABYSWAP",
+                    "factoryAddress": "0x86407bEa2078ea5f5EB5A52B2caA963bC1F889Da",
+                    "routerAddress": "0x325E343f1dE602396E256B67eFd1F61C3A6B38Bd"
+                }
+            },
+            {
+                "address": "0xC71201ccE9d64B7C33E40FbeC058fA14597862fE",
+                "exchange": {
+                    "name": "KNIGHTSWAP",
+                    "factoryAddress": "0xf0bc2E21a76513aa7CC2730C7A1D6deE0790751f",
+                    "routerAddress": "0x05E61E0cDcD2170a76F9568a110CEe3AFdD6c46f"
                 }
             }
         ]
