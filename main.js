@@ -12,9 +12,10 @@ const startArbitrage = async () => {
 
     const pairs = await pairService.getAllPairs()
     let allPrices = await priceService.getAllPrices(pairs)
-    return
+    let allPricesComb = priceService.combineDEXtrades(allPrices)
+    let isProfitable = await priceService.computeProfit(allPricesComb)
 
-    let isProfitable = await priceService.isProfitable(allPrices)
+    return
 
     if (isProfitable.includes(true)) {
         await priceService.getBiggestProfit(isProfitable)

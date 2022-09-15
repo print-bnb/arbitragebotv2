@@ -8,7 +8,7 @@ const { routerABI, pairABI } = require('../constants/abi.js')
 const combinations = require('lodash.combinations')
 const _ = require('lodash')
 
-const allPrices = './allPrices.json'
+const fichierFinal = './fichierFinal.json'
 
 const Provider = require('./Provider.js')
 
@@ -103,25 +103,32 @@ class PriceService extends Provider {
         let exchangesPrices = []
         let i = 0
 
-        // price from DEX are calculated for trading 1 baseToken against
+        // price from DEX are calculated for trading X amount of baseToken against
         // an unknown amount of quoteToken
-        let amountBaseToken = '1'
+        let amountBaseToken = ['9', '2', '2', '0.11', '0.11']
 
         // external prices are taken from binance public api
         // values are matching the pairs.json pairs
         const { data } = await axios.get(binanceEndpoint)
         let externalPrices = [
-            data[2].price,
-            data[4].price,
-            1 / data[1].price,
-            data[3].price,
-            1 / data[0].price,
+            Number(data[2].price),
+            Number(data[4].price),
+            Number(1 / data[1].price),
+            Number(data[3].price),
+            Number(1 / data[0].price),
         ]
 
-        // here's the amount of quoteToken we get from selling 1 baseToken
-        let amountQuoteToken = (
-            Number(amountBaseToken) * externalPrices[i]
-        ).toString()
+        // here's the amount of quoteToken we get from selling X amount of baseToken
+        let amountBaseTokenConverted = amountBaseToken.map((string) =>
+            Number(string)
+        )
+        let amountQuoteToken = []
+
+        for (let i = 0; i < externalPrices.length; i++) {
+            amountQuoteToken[i] = (
+                amountBaseTokenConverted[i] * externalPrices[i]
+            ).toString()
+        }
 
         for (const pair of pairs) {
             const symbols = pair.symbols
@@ -140,8 +147,8 @@ class PriceService extends Provider {
                 const exchangeName = singleExchangePair.exchange.name
 
                 let prices = await this.getPairPrice(
-                    amountBaseToken,
-                    amountQuoteToken,
+                    amountBaseToken[i],
+                    amountQuoteToken[i],
                     pair.baseToken.address,
                     singleExchangePair.address,
                     singleExchangePair.exchange.routerAddress
@@ -155,17 +162,6 @@ class PriceService extends Provider {
             i++
         }
 
-        fs.writeFile(
-            allPrices,
-            JSON.stringify(exchangesPrices),
-            async function (err) {
-                if (err) {
-                    return console.log(err)
-                }
-                console.log('allPrices file updated!')
-            }
-        )
-
         return exchangesPrices
     }
 
@@ -173,7 +169,77 @@ class PriceService extends Provider {
         return ethers.utils.formatUnits(await this.provider.getGasPrice())
     }
 
-    isProfitable = async (allPrices) => {}
+    combineDEXtrades = (allPrices) => {
+        for (let i = 0; i < allPrices.length; i++) {
+            let pair = allPrices[i]
+            allPrices[i].pairs = _.combinations(pair.pairs, 2)
+        }
+
+        return allPrices
+    }
+
+    computeProfit = (allPricesComb) => {
+        for (let i = 0; i < allPricesComb.length; i++) {
+            let pair = allPricesComb[i]
+            let pricesDEXComb = pair.pairs
+
+            let profitComputation = []
+            for (let j = 0; j < pricesDEXComb.length; j++) {
+                let result = {}
+                let dualDEXtrade = pricesDEXComb[j]
+
+                //trades are only between two DEXs
+                let DEX1 = dualDEXtrade[0]
+                let DEX2 = dualDEXtrade[1]
+
+                //buy on DEX2 and sell on DEX1
+                let profitDir1 = DEX1.prices.sell - DEX2.prices.buy
+                let addressBuy = DEX2.address
+                let exchangeBuy = DEX2.exchange
+                let addressSell = DEX1.address
+                let exchangeSell = DEX1.exchange
+                result['direction1'] = {
+                    direction: [
+                        { addressBuy, exchangeBuy },
+                        { addressSell, exchangeSell },
+                    ],
+                    profit: profitDir1,
+                }
+
+                //buy on DEX1 and sell on DEX2
+                let profitDir2 = DEX2.prices.sell - DEX1.prices.buy
+                addressBuy = DEX1.address
+                exchangeBuy = DEX1.exchange
+                addressSell = DEX2.address
+                exchangeSell = DEX2.exchange
+                result['direction2'] = {
+                    direction: [
+                        { addressBuy, exchangeBuy },
+                        { addressSell, exchangeSell },
+                    ],
+                    profit: profitDir2,
+                }
+
+                profitComputation.push(result)
+            }
+            allPricesComb[i].pairs = profitComputation
+        }
+
+        fs.writeFile(
+            fichierFinal,
+            JSON.stringify(allPricesComb),
+            async function (err) {
+                if (err) {
+                    return console.log(err)
+                }
+                console.log('final file updated!')
+            }
+        )
+
+        return allPricesComb
+    }
+
+    isProfitable = () => {}
 
     getBiggestProfit = async (isProfitable) => {}
 }
