@@ -4,6 +4,9 @@ const { binanceEndpoint } = require('../constants/config')
 
 const { routerABI, pairABI } = require('../constants/abi.js')
 
+const combinations = require('lodash.combinations')
+const _ = require('lodash')
+
 const Provider = require('./Provider.js')
 
 class PriceService extends Provider {
