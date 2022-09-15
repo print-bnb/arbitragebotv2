@@ -25,6 +25,22 @@
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
                 }
+            },
+            {
+                "address": "0x9Ec271C041a18aA7beF070A1F196eea1D06Ab7cb",
+                "exchange": {
+                    "name": "BAKERY",
+                    "factoryAddress": "0x01bF7C66c6BD861915CdaaE475042d3c4BaE16A7",
+                    "routerAddress": "0xcde540d7eafe93ac5fe6233bee57e1270d3e330f"
+                }
+            },
+            {
+                "address": "0xe2Bbf54Dc0ccDD0Cf6270f2aF2f62FF79903Bb27",
+                "exchange": {
+                    "name": "NOMISWAP",
+                    "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
+                    "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
             }
         ]
     },
@@ -53,6 +69,22 @@
                     "name": "BISWAP",
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
+                }
+            },
+            {
+                "address": "0x408D46D0F351f51ebc15e466aa897e5e0F5D2060",
+                "exchange": {
+                    "name": "BAKERY",
+                    "factoryAddress": "0x01bF7C66c6BD861915CdaaE475042d3c4BaE16A7",
+                    "routerAddress": "0xcde540d7eafe93ac5fe6233bee57e1270d3e330f"
+                }
+            },
+            {
+                "address": "0xe324aa41eeFd912421C601626A6D5F85CC346B6a",
+                "exchange": {
+                    "name": "NOMISWAP",
+                    "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
+                    "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
                 }
             }
         ]
@@ -83,6 +115,22 @@
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
                 }
+            },
+            {
+                "address": "0xa50b9c5DB61C855D5939aa1a66B26Df77745809b",
+                "exchange": {
+                    "name": "BAKERY",
+                    "factoryAddress": "0x01bF7C66c6BD861915CdaaE475042d3c4BaE16A7",
+                    "routerAddress": "0xcde540d7eafe93ac5fe6233bee57e1270d3e330f"
+                }
+            },
+            {
+                "address": "0x13dE257cb86a08753Df938b6ad30d1A456A863e6",
+                "exchange": {
+                    "name": "NOMISWAP",
+                    "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
+                    "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
             }
         ]
     },
@@ -112,6 +160,22 @@
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
                 }
+            },
+            {
+                "address": "0xcCE41b6c07281f146E00fAB7cBc73D9629C9f2da",
+                "exchange": {
+                    "name": "BAKERY",
+                    "factoryAddress": "0x01bF7C66c6BD861915CdaaE475042d3c4BaE16A7",
+                    "routerAddress": "0xcde540d7eafe93ac5fe6233bee57e1270d3e330f"
+                }
+            },
+            {
+                "address": "0xa830F3A087c9A642694f6eEa98778e1c70097754",
+                "exchange": {
+                    "name": "NOMISWAP",
+                    "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
+                    "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
+                }
             }
         ]
     },
@@ -140,6 +204,22 @@
                     "name": "BISWAP",
                     "factoryAddress": "0x858E3312ed3A876947EA49d572A7C42DE08af7EE",
                     "routerAddress": "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8"
+                }
+            },
+            {
+                "address": "0x58521373474810915b02FE968D1BCBe35Fc61E09",
+                "exchange": {
+                    "name": "BAKERY",
+                    "factoryAddress": "0x01bF7C66c6BD861915CdaaE475042d3c4BaE16A7",
+                    "routerAddress": "0xcde540d7eafe93ac5fe6233bee57e1270d3e330f"
+                }
+            },
+            {
+                "address": "0x36451A95D5a2F0C25530331F382E4D432CAecB17",
+                "exchange": {
+                    "name": "NOMISWAP",
+                    "factoryAddress": "0xd6715a8be3944ec72738f0bfdc739d48c3c29349",
+                    "routerAddress": "0xd654953d746f0b114d1f85332dc43446ac79413d"
                 }
             }
         ]

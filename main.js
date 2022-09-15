@@ -12,6 +12,7 @@ const startArbitrage = async () => {
 
     const pairs = await pairService.getAllPairs()
     let allPrices = await priceService.getAllPrices(pairs)
+    return
 
     let isProfitable = await priceService.isProfitable(allPrices)
 
@@ -31,13 +32,13 @@ const refreshPairs = async () => {
     }
 }
 
-async function main() {
-    providerService.getProvider().on('block', async (blockNumber) => {
-        startArbitrage()
-    })
-}
+// async function main() {
+//     providerService.getProvider().on('block', async (blockNumber) => {
+//         startArbitrage()
+//     })
+// }
 
-main()
+// main()
 
-// startArbitrage()
+startArbitrage()
 // refreshPairs()

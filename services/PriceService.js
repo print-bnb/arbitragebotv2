@@ -1,11 +1,14 @@
 const { ethers } = require('hardhat')
 const axios = require('axios')
+const fs = require('fs')
 const { binanceEndpoint } = require('../constants/config')
 
 const { routerABI, pairABI } = require('../constants/abi.js')
 
 const combinations = require('lodash.combinations')
 const _ = require('lodash')
+
+const allPrices = './allPrices.json'
 
 const Provider = require('./Provider.js')
 
@@ -151,6 +154,17 @@ class PriceService extends Provider {
             }
             i++
         }
+
+        fs.writeFile(
+            allPrices,
+            JSON.stringify(exchangesPrices),
+            async function (err) {
+                if (err) {
+                    return console.log(err)
+                }
+                console.log('allPrices file updated!')
+            }
+        )
 
         return exchangesPrices
     }
