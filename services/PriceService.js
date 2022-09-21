@@ -2,6 +2,10 @@ const { ethers } = require('ethers')
 const fs = require('fs')
 const combinations = require('lodash.combinations')
 const _ = require('lodash')
+const mailgun = require('mailgun-js')({
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+})
 
 const { routerABI, pairABI } = require('../constants/abi.js')
 
@@ -169,6 +173,24 @@ class PriceService extends BlockchainService {
                         `BUY ${pair.baseToken.symbol} on ${result['direction1'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction1'].direction[1].exchangeSell.name}`
                     )
                     console.log('The profit -------- ', profitDir1)
+
+                    mailgun.messages().send(
+                        {
+                            from: 'Excited User <me@samples.mailgun.org>',
+                            to: 'limol.lionel@gmail.com',
+                            subject: 'Hello',
+                            text: `BUY ${pair.baseToken.symbol} on ${
+                                result['direction1'].direction[0].exchangeBuy
+                                    .name
+                            } and SELL ${pair.quoteToken.symbol} on ${
+                                result['direction1'].direction[1].exchangeSell
+                                    .name
+                            } || profit: ${profitDir1 * 500}`,
+                        },
+                        function (error, body) {
+                            console.log(body)
+                        }
+                    )
                 }
 
                 //buy on DEX1 and sell on DEX2
@@ -190,6 +212,24 @@ class PriceService extends BlockchainService {
                         `BUY ${pair.baseToken.symbol} on ${result['direction2'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction2'].direction[1].exchangeSell.name}`
                     )
                     console.log('The profit -------- ', profitDir2)
+
+                    mailgun.messages().send(
+                        {
+                            from: 'Excited User <me@samples.mailgun.org>',
+                            to: 'limol.lionel@gmail.com',
+                            subject: 'Hello',
+                            text: `BUY ${pair.baseToken.symbol} on ${
+                                result['direction2'].direction[0].exchangeBuy
+                                    .name
+                            } and SELL ${pair.quoteToken.symbol} on ${
+                                result['direction2'].direction[1].exchangeSell
+                                    .name
+                            } || profit: ${profitDir2 * 500}`,
+                        },
+                        function (error, body) {
+                            console.log(body)
+                        }
+                    )
                 }
 
                 profitComputation.push(result)

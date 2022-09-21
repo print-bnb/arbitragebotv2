@@ -10,12 +10,12 @@ const PriceService = require('./services/PriceService')
 const priceService = new PriceService()
 
 const startArbitrage = async (amountBaseToken) => {
-    let start = Date.now()
+    // let start = Date.now()
     const pairs = await pairService.getAllPairs()
     let allPrices = await priceService.getAllPrices(pairs, amountBaseToken)
     let allPricesComb = priceService.combineDEXtrades(allPrices)
     let isProfitable = priceService.computeProfit(allPricesComb)
-    console.log(Date.now()-start)
+    // console.log(Date.now()-start)
 }
 
 const refreshPairs = async () => {
@@ -34,7 +34,6 @@ async function main() {
 
     blockchainService.getProvider().on('block', async (blockNumber) => {
         await startArbitrage(amountBaseToken)
-        console.log(blockNumber)
     })
 }
 
