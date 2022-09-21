@@ -10,10 +10,12 @@ const PriceService = require('./services/PriceService')
 const priceService = new PriceService()
 
 const startArbitrage = async (amountBaseToken) => {
+    let start = Date.now()
     const pairs = await pairService.getAllPairs()
     let allPrices = await priceService.getAllPrices(pairs, amountBaseToken)
     let allPricesComb = priceService.combineDEXtrades(allPrices)
     let isProfitable = priceService.computeProfit(allPricesComb)
+    console.log(Date.now()-start)
 }
 
 const refreshPairs = async () => {
@@ -25,12 +27,14 @@ const refreshPairs = async () => {
 }
 
 async function main() {
-    // price from DEX are calculated for trading X amount of baseToken against
+    // price from DEX are calculated for trading X amount of baseToken (value ~ 500 USD) against
     // an unknown amount of quoteToken
-    let amountBaseToken = ['1.8110', '0.3152', '0.3152', '0.02485', '0.02485']
+    // we still need to find the maximum profit value of X to trade
+    let amountBaseToken = ['1.8', '0.35', '0.35', '0.025', '0.025']
 
     blockchainService.getProvider().on('block', async (blockNumber) => {
         await startArbitrage(amountBaseToken)
+        console.log(blockNumber)
     })
 }
 

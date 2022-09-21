@@ -1,10 +1,8 @@
-const { ethers } = require('hardhat')
-const axios = require('axios')
+const { ethers } = require('ethers')
 const fs = require('fs')
 const combinations = require('lodash.combinations')
 const _ = require('lodash')
 
-const { binanceEndpoint } = require('../constants/config')
 const { routerABI, pairABI } = require('../constants/abi.js')
 
 const BlockchainService = require('./BlockchainService.js')
@@ -16,7 +14,6 @@ class PriceService extends BlockchainService {
 
     getPairPrice = async (
         amountBaseToken,
-        amountQuoteToken,
         baseTokenAddress,
         pairAddress,
         routerAddress
@@ -72,8 +69,8 @@ class PriceService extends BlockchainService {
         )
 
         // buying amountIn (unknown) of baseToken (token0) with amountInQuoteToken of quoteToken (token1)
-        let pairPriceArrayBuy = routerContractInstance.getAmountsOut(
-            ethers.utils.parseUnits(amountQuoteToken, 18),
+        let pairPriceArrayBuy = routerContractInstance.getAmountsIn(
+            ethers.utils.parseUnits(amountBaseToken, 18),
             pathBuy
         )
 
@@ -97,29 +94,6 @@ class PriceService extends BlockchainService {
         let exchangesPrices = []
         let i = 0
 
-        // external prices are taken from binance public api
-        // values are matching the pairs.json pairs
-        const { data } = await axios.get(binanceEndpoint)
-        let externalPrices = [
-            Number(data[2].price),
-            Number(data[4].price),
-            Number(1 / data[1].price),
-            Number(data[3].price),
-            Number(1 / data[0].price),
-        ]
-
-        // here's the amount of quoteToken we get from selling X amount of baseToken
-        let amountBaseTokenConverted = amountBaseToken.map((string) =>
-            Number(string)
-        )
-        let amountQuoteToken = []
-
-        for (let i = 0; i < externalPrices.length; i++) {
-            amountQuoteToken[i] = (
-                amountBaseTokenConverted[i] * externalPrices[i]
-            ).toString()
-        }
-
         for (const pair of pairs) {
             const symbols = pair.symbols
             const baseToken = pair.baseToken
@@ -127,7 +101,6 @@ class PriceService extends BlockchainService {
 
             exchangesPrices[i] = {
                 symbols,
-                truePrice: externalPrices[i],
                 baseToken,
                 quoteToken,
             }
@@ -138,7 +111,6 @@ class PriceService extends BlockchainService {
 
                 let prices = await this.getPairPrice(
                     amountBaseToken[i],
-                    amountQuoteToken[i],
                     pair.baseToken.address,
                     singleExchangePair.address,
                     singleExchangePair.exchange.routerAddress

@@ -1,4 +1,4 @@
-const { ethers } = require('hardhat')
+const { ethers } = require('ethers')
 const fs = require('fs')
 
 const { factoryABI, routerABI } = require('../constants/abi')

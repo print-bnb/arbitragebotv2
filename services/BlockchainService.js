@@ -1,5 +1,5 @@
 const { provider } = require('../constants/config')
-const { ethers } = require('hardhat')
+const { ethers } = require('ethers')
 
 class BlockchainService {
     constructor() {
