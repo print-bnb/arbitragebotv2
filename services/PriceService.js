@@ -40,7 +40,7 @@ class PriceService extends BlockchainService {
 
         let promisesValue1
         try {
-            promisesValues1 = await Promise.allSettled([
+            promisesValue1 = await Promise.allSettled([
                 poolReserves,
                 addressToken0,
                 addressToken1,
