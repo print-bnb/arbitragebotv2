@@ -38,12 +38,20 @@ class PriceService extends BlockchainService {
         let addressToken0 = pairContractInstance.token0()
         let addressToken1 = pairContractInstance.token1()
 
-        let [fromPoolReserves, fromToken0, fromToken1] =
-            await Promise.allSettled([
+        let promisesValue1
+        try {
+            promisesValues1 = await Promise.allSettled([
                 poolReserves,
                 addressToken0,
                 addressToken1,
             ])
+        } catch (error) {
+            console.log(error)
+        }
+
+        let fromPoolReserves = promisesValue1[0]
+        let fromToken0 = promisesValue1[1]
+        let fromToken1 = promisesValue1[2]
 
         addressToken0 = fromToken0.value
         addressToken1 = fromToken1.value
@@ -78,10 +86,17 @@ class PriceService extends BlockchainService {
             pathBuy
         )
 
-        let [sell, buy] = await Promise.allSettled([
-            pairPriceArraySell,
-            pairPriceArrayBuy,
-        ])
+        let promisesValue2
+        try {
+            promisesValue2 = await Promise.allSettled([
+                pairPriceArraySell,
+                pairPriceArrayBuy,
+            ])
+        } catch (error) {
+            console.log(error)
+        }
+        let sell = promisesValue2[0]
+        let buy = promisesValue2[1]
 
         return {
             sell:
@@ -113,12 +128,17 @@ class PriceService extends BlockchainService {
             exchangesPrices[i]['pairs'] = []
 
             for (const singleExchangePair of pair.pairs) {
-                let prices = await this.getPairPrice(
-                    amountBaseToken[i],
-                    pair.baseToken.address,
-                    singleExchangePair.address,
-                    singleExchangePair.exchange.routerAddress
-                )
+                let prices
+                try {
+                    prices = await this.getPairPrice(
+                        amountBaseToken[i],
+                        pair.baseToken.address,
+                        singleExchangePair.address,
+                        singleExchangePair.exchange.routerAddress
+                    )
+                } catch (error) {
+                    console.log(error)
+                }
 
                 exchangesPrices[i]['pairs'].push({
                     ...singleExchangePair,

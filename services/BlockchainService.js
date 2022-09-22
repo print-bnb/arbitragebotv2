@@ -9,7 +9,13 @@ class BlockchainService {
     getProvider = () => this.provider
 
     getGasPrice = async () => {
-        return ethers.utils.formatUnits(await this.provider.getGasPrice())
+        let gasEstimate
+        try {
+            gasEstimate = await this.provider.getGasPrice()
+        } catch (error) {
+            console.log(error)
+        }
+        return ethers.utils.formatUnits(gasEstimate)
     }
 }
 

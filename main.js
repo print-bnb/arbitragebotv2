@@ -33,7 +33,11 @@ async function main() {
     let amountBaseToken = ['1.8', '0.35', '0.35', '0.025', '0.025']
 
     blockchainService.getProvider().on('block', async (blockNumber) => {
-        await startArbitrage(amountBaseToken)
+        try {
+            await startArbitrage(amountBaseToken)
+        } catch (error) {
+            console.log(error)
+        }
     })
 }
 

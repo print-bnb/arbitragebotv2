@@ -96,10 +96,15 @@ class PairService extends BlockchainService {
                         `search for ${symbols} on ${exchange.exchangeName}`
                     )
 
-                    const pairAddress = await exchange.factory.getPair(
-                        baseToken.address,
-                        quoteToken.address
-                    )
+                    let pairAddress
+                    try {
+                        pairAddress = await exchange.factory.getPair(
+                            baseToken.address,
+                            quoteToken.address
+                        )
+                    } catch (error) {
+                        console.log(error)
+                    }
 
                     if (pairAddress != ZERO_ADDRESS) {
                         console.log(
