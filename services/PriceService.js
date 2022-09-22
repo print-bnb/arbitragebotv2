@@ -102,17 +102,17 @@ class PriceService extends BlockchainService {
             const symbols = pair.symbols
             const baseToken = pair.baseToken
             const quoteToken = pair.quoteToken
+            const baseTokenAmount = Number(amountBaseToken[i])
 
             exchangesPrices[i] = {
                 symbols,
                 baseToken,
+                baseTokenAmount,
                 quoteToken,
             }
             exchangesPrices[i]['pairs'] = []
 
             for (const singleExchangePair of pair.pairs) {
-                const exchangeName = singleExchangePair.exchange.name
-
                 let prices = await this.getPairPrice(
                     amountBaseToken[i],
                     pair.baseToken.address,
@@ -155,7 +155,7 @@ class PriceService extends BlockchainService {
                 let DEX2 = dualDEXtrade[1]
 
                 //buy on DEX2 and sell on DEX1
-                let profitDir1 = DEX1.prices.sell - DEX2.prices.buy
+                let priceDifDir1 = DEX1.prices.sell - DEX2.prices.buy
                 let addressBuy = DEX2.address
                 let exchangeBuy = DEX2.exchange
                 let addressSell = DEX1.address
@@ -165,19 +165,19 @@ class PriceService extends BlockchainService {
                         { addressBuy, exchangeBuy },
                         { addressSell, exchangeSell },
                     ],
-                    profit: profitDir1,
+                    priceDifference: priceDifDir1,
                 }
-                if (profitDir1 > 0) {
+                if (priceDifDir1 > 0) {
                     console.log('Date now -------- ', Date.now())
                     console.log(
                         `BUY ${pair.baseToken.symbol} on ${result['direction1'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction1'].direction[1].exchangeSell.name}`
                     )
-                    console.log('The profit -------- ', profitDir1)
+                    console.log('The profit -------- ', priceDifDir1)
 
                     mailgun.messages().send(
                         {
-                            from: 'Excited User <me@samples.mailgun.org>',
-                            to: 'limol.lionel@gmail.com',
+                            from: 'PRINT BNB <me@samples.mailgun.org>',
+                            to: ['limol.lionel@gmail.com', 'lorcann@live.fr'],
                             subject: 'Hello',
                             text: `BUY ${pair.baseToken.symbol} on ${
                                 result['direction1'].direction[0].exchangeBuy
@@ -185,7 +185,9 @@ class PriceService extends BlockchainService {
                             } and SELL ${pair.quoteToken.symbol} on ${
                                 result['direction1'].direction[1].exchangeSell
                                     .name
-                            } || profit: ${profitDir1 * 500}`,
+                            } || profit: ${
+                                priceDifDir1 * pair.baseTokenAmount
+                            } ${pair.quoteToken.symbol}`,
                         },
                         function (error, body) {
                             console.log(body)
@@ -194,7 +196,7 @@ class PriceService extends BlockchainService {
                 }
 
                 //buy on DEX1 and sell on DEX2
-                let profitDir2 = DEX2.prices.sell - DEX1.prices.buy
+                let priceDifDir2 = DEX2.prices.sell - DEX1.prices.buy
                 addressBuy = DEX1.address
                 exchangeBuy = DEX1.exchange
                 addressSell = DEX2.address
@@ -204,19 +206,19 @@ class PriceService extends BlockchainService {
                         { addressBuy, exchangeBuy },
                         { addressSell, exchangeSell },
                     ],
-                    profit: profitDir2,
+                    priceDifference: priceDifDir2,
                 }
-                if (profitDir2 > 0) {
+                if (priceDifDir2 > 0) {
                     console.log('Date now --------', Date.now())
                     console.log(
                         `BUY ${pair.baseToken.symbol} on ${result['direction2'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction2'].direction[1].exchangeSell.name}`
                     )
-                    console.log('The profit -------- ', profitDir2)
+                    console.log('The profit -------- ', priceDifDir2)
 
                     mailgun.messages().send(
                         {
-                            from: 'Excited User <me@samples.mailgun.org>',
-                            to: 'limol.lionel@gmail.com',
+                            from: 'PRINT BNB <me@samples.mailgun.org>',
+                            to: ['limol.lionel@gmail.com', 'lorcann@live.fr'],
                             subject: 'Hello',
                             text: `BUY ${pair.baseToken.symbol} on ${
                                 result['direction2'].direction[0].exchangeBuy
@@ -224,7 +226,9 @@ class PriceService extends BlockchainService {
                             } and SELL ${pair.quoteToken.symbol} on ${
                                 result['direction2'].direction[1].exchangeSell
                                     .name
-                            } || profit: ${profitDir2 * 500}`,
+                            } || profit: ${
+                                priceDifDir2 * pair.baseTokenAmount
+                            } ${pair.quoteToken.symbol}`,
                         },
                         function (error, body) {
                             console.log(body)
