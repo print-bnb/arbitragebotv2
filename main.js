@@ -11,8 +11,14 @@ const priceService = new PriceService()
 
 const startArbitrage = async (amountBaseToken) => {
     // let start = Date.now()
-    const pairs = await pairService.getAllPairs()
-    let allPrices = await priceService.getAllPrices(pairs, amountBaseToken)
+    let pairs, allPrices
+    try {
+        pairs = await pairService.getAllPairs()
+        allPrices = await priceService.getAllPrices(pairs, amountBaseToken)
+    } catch (error) {
+        console.log(error)
+    }
+
     let allPricesComb = priceService.combineDEXtrades(allPrices)
     let isProfitable = priceService.computeProfit(allPricesComb)
     // console.log(Date.now()-start)
