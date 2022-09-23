@@ -192,7 +192,7 @@ class PriceService extends BlockchainService {
                     console.log(
                         `BUY ${pair.baseToken.symbol} on ${result['direction1'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction1'].direction[1].exchangeSell.name}`
                     )
-                    console.log('The profit -------- ', priceDifDir1)
+                    console.log('The price difference -------- ', priceDifDir1)
 
                     mailgun.messages().send(
                         {
@@ -207,7 +207,11 @@ class PriceService extends BlockchainService {
                                     .name
                             } || profit: ${
                                 priceDifDir1 * pair.baseTokenAmount
-                            } ${pair.quoteToken.symbol}`,
+                            } ${
+                                pair.quoteToken.symbol
+                            } || priceDiff: ${priceDifDir1} || Price gotten for baseToken amount: ${
+                                pair.baseTokenAmount
+                            }`,
                         },
                         function (error, body) {
                             console.log(body)
@@ -233,7 +237,7 @@ class PriceService extends BlockchainService {
                     console.log(
                         `BUY ${pair.baseToken.symbol} on ${result['direction2'].direction[0].exchangeBuy.name} and SELL ${pair.quoteToken.symbol} on ${result['direction2'].direction[1].exchangeSell.name}`
                     )
-                    console.log('The profit -------- ', priceDifDir2)
+                    console.log('The price difference -------- ', priceDifDir2)
 
                     mailgun.messages().send(
                         {
@@ -248,7 +252,11 @@ class PriceService extends BlockchainService {
                                     .name
                             } || profit: ${
                                 priceDifDir2 * pair.baseTokenAmount
-                            } ${pair.quoteToken.symbol}`,
+                            } ${pair.quoteToken.symbol} ${
+                                pair.quoteToken.symbol
+                            } || priceDiff: ${priceDifDir2} || Price gotten for baseToken amount: ${
+                                pair.baseTokenAmount
+                            }`,
                         },
                         function (error, body) {
                             console.log(body)
