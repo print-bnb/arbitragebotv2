@@ -37,14 +37,17 @@ async function main() {
     // an unknown amount of quoteToken
     // we still need to find the maximum profit value of X to trade
     let amountBaseToken = ['1.8', '0.35', '0.35', '0.025', '0.025']
-
-    blockchainService.getProvider().on('block', async (blockNumber) => {
-        try {
-            await startArbitrage(amountBaseToken)
-        } catch (error) {
-            console.log(error)
-        }
-    })
+    try {
+        blockchainService.getProvider().on('block', async (blockNumber) => {
+            try {
+                await startArbitrage(amountBaseToken)
+            } catch (error) {
+                console.log(error)
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 main()

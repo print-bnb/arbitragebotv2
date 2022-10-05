@@ -69,8 +69,6 @@ class PairService extends BlockchainService {
                     tokenPairs.some((obj) =>
                         obj.symbols.includes(duplicateSymbols)
                     ) ||
-                    symbols === 'BUSD-USDT' ||
-                    symbols === 'USDT-BUSD' ||
                     baseToken.symbol === 'USDT' ||
                     baseToken.symbol === 'BUSD' ||
                     baseToken.symbol === 'USDC'
