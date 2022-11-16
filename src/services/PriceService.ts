@@ -1,26 +1,24 @@
-import { ethers } from 'ethers';
-import * as _ from 'lodash';
-import mailGunJs from 'mailgun-js';
+import { BigNumber, ethers } from 'ethers';
+import 'lodash.combinations';
+import _ from 'lodash';
 import ABI from '../../constants/abi';
 import { Pair, Pair__pair } from '../pairs';
 import { BlockchainService } from './BlockchainService';
-
-const mailgun = mailGunJs({
-  apiKey: process.env.MAILGUN_API_KEY,
-  domain: process.env.MAILGUN_DOMAIN,
-});
+import { MailService } from './MailService';
 
 const { routerABI, pairABI } = ABI;
 
 export interface PairPrice {
-  sell: number;
-  reserve: number;
-  buy: number;
+  prices: {
+    sell: number;
+    reserve: number;
+    buy: number;
+  };
 }
 export interface ExchangePrice {
   symbols: string;
   baseToken: { symbol: string; address: string };
-  baseTokenAmount: number;
+  baseTokenAmount: BigNumber;
   quoteToken: { symbol: string; address: string };
   pairs: (Pair__pair & { prices: PairPrice })[];
   profitComputation?: ProfitComputationResult[];
@@ -36,16 +34,19 @@ export interface ProfitComputationResult {
 }
 
 export class PriceService extends BlockchainService {
+  protected mailService: MailService;
   constructor() {
     super();
+    this.mailService = new MailService();
   }
 
   getPairPrice = async (
-    amountBaseToken: string,
+    amountBaseToken: ethers.BigNumber,
     baseTokenAddress: string,
     pairAddress: string,
-    routerAddress: string
-  ): Promise<PairPrice> => {
+    routerAddress: string,
+    singleExchangePair: Pair__pair
+  ): Promise<PairPrice & Pair__pair> => {
     const pairContractInstance = new ethers.Contract(
       pairAddress,
       pairABI,
@@ -56,116 +57,109 @@ export class PriceService extends BlockchainService {
       routerABI,
       this.provider
     );
-
-    const poolReserves = pairContractInstance.getReserves();
-
-    let addressToken0 = pairContractInstance.token0();
-    let addressToken1 = pairContractInstance.token1();
-
-    let promisesValue1;
     try {
-      promisesValue1 = await Promise.allSettled([
-        poolReserves,
-        addressToken0,
-        addressToken1,
+      // console.time('FetchReserves');
+      const [fromPoolReserves, addressToken0, addressToken1] =
+        await Promise.all([
+          pairContractInstance.getReserves(),
+          pairContractInstance.token0(),
+          pairContractInstance.token1(),
+        ]);
+      // console.timeEnd('FetchReserves');
+
+      const token0 = fromPoolReserves[0] as BigNumber;
+      const token1 = fromPoolReserves[1] as BigNumber;
+
+      let pairPrice, pathSell, pathBuy;
+      if (baseTokenAddress !== addressToken0) {
+        pairPrice = token0.div(token1);
+        pathSell = [addressToken1, addressToken0];
+        pathBuy = [addressToken0, addressToken1];
+      } else {
+        pairPrice = token1.div(token0);
+        pathSell = [addressToken0, addressToken1];
+        pathBuy = [addressToken1, addressToken0];
+      }
+
+      // selling amountIn of baseToken (token0) for amountOut (unknown) of quoteToken (token1)
+      let pairPriceArraySellPromise = routerContractInstance.getAmountsOut(
+        amountBaseToken,
+        pathSell
+      );
+
+      // buying amountIn (unknown) of baseToken (token0) with amountInQuoteToken of quoteToken (token1)
+      let pairPriceArrayBuyPromise = routerContractInstance.getAmountsIn(
+        amountBaseToken,
+        pathBuy
+      );
+
+      // console.time('getAmountsIn/out');
+      const [sell, buy] = await Promise.all([
+        pairPriceArraySellPromise,
+        pairPriceArrayBuyPromise,
       ]);
+      // console.timeEnd('getAmountsIn/out');
+
+      return {
+        ...singleExchangePair,
+        prices: {
+          sell:
+            Number(ethers.utils.formatEther(sell[1] as BigNumber)) /
+            Number(ethers.utils.formatEther(sell[0] as BigNumber)),
+          reserve: pairPrice,
+          buy:
+            Number(ethers.utils.formatEther(buy[0] as BigNumber)) /
+            Number(ethers.utils.formatEther(buy[1] as BigNumber)),
+        },
+      };
     } catch (error) {
       console.log(error);
+      throw error;
     }
-
-    let fromPoolReserves = promisesValue1[0];
-    let fromToken0 = promisesValue1[1];
-    let fromToken1 = promisesValue1[2];
-
-    addressToken0 = fromToken0.value;
-    addressToken1 = fromToken1.value;
-
-    const token0 = Number(ethers.utils.formatEther(fromPoolReserves.value[0]));
-    const token1 = Number(ethers.utils.formatEther(fromPoolReserves.value[1]));
-
-    let pairPrice, pathSell, pathBuy;
-    if (baseTokenAddress !== addressToken0) {
-      pairPrice = token0 / token1;
-      pathSell = [addressToken1, addressToken0];
-      pathBuy = [addressToken0, addressToken1];
-    } else {
-      pairPrice = token1 / token0;
-      pathSell = [addressToken0, addressToken1];
-      pathBuy = [addressToken1, addressToken0];
-    }
-
-    // selling amountIn of baseToken (token0) for amountOut (unknown) of quoteToken (token1)
-    let pairPriceArraySell = routerContractInstance.getAmountsOut(
-      ethers.utils.parseUnits(amountBaseToken, 18),
-      pathSell
-    );
-
-    // buying amountIn (unknown) of baseToken (token0) with amountInQuoteToken of quoteToken (token1)
-    let pairPriceArrayBuy = routerContractInstance.getAmountsIn(
-      ethers.utils.parseUnits(amountBaseToken, 18),
-      pathBuy
-    );
-
-    let promisesValue2;
-    try {
-      promisesValue2 = await Promise.allSettled([
-        pairPriceArraySell,
-        pairPriceArrayBuy,
-      ]);
-    } catch (error) {
-      console.log(error);
-    }
-    let sell = promisesValue2[0];
-    let buy = promisesValue2[1];
-
-    return {
-      sell:
-        Number(ethers.utils.formatEther(sell.value[1])) /
-        Number(ethers.utils.formatEther(sell.value[0])),
-      reserve: pairPrice,
-      buy:
-        Number(ethers.utils.formatEther(buy.value[0])) /
-        Number(ethers.utils.formatEther(buy.value[1])),
+  };
+  private fetchPriceForPair = async (
+    pair: Pair,
+    baseTokenAmount: ethers.BigNumber
+  ): Promise<ExchangePrice> => {
+    const symbols = pair.symbols;
+    const baseToken = pair.baseToken;
+    const quoteToken = pair.quoteToken;
+    const exchangesPrice: ExchangePrice = {
+      symbols,
+      baseToken,
+      baseTokenAmount,
+      quoteToken,
+      pairs: [],
     };
+    const fetchPairPricesPromises: any[] = [];
+
+    for (const singleExchangePair of pair.pairs) {
+      fetchPairPricesPromises.push(
+        this.getPairPrice(
+          baseTokenAmount,
+          pair.baseToken.address,
+          singleExchangePair.address,
+          singleExchangePair.exchange.routerAddress,
+          singleExchangePair
+        )
+      );
+    }
+    const results = await Promise.all(fetchPairPricesPromises);
+    exchangesPrice.pairs = results;
+    return exchangesPrice;
   };
 
-  getAllPrices = async (pairs: Pair[], amountBaseToken: string[]) => {
+  getAllPrices = async (pairs: Pair[], amountBaseToken: ethers.BigNumber[]) => {
     let exchangesPrices: ExchangePrice[] = [];
     let i = 0;
 
+    const promises: Promise<ExchangePrice>[] = [];
     for (const pair of pairs) {
-      const symbols = pair.symbols;
-      const baseToken = pair.baseToken;
-      const quoteToken = pair.quoteToken;
-      const baseTokenAmount = Number(amountBaseToken[i]);
-
-      exchangesPrices[i] = {
-        symbols,
-        baseToken,
-        baseTokenAmount,
-        quoteToken,
-        pairs: [],
-      };
-
-      for (const singleExchangePair of pair.pairs) {
-        let prices: PairPrice;
-        try {
-          prices = await this.getPairPrice(
-            amountBaseToken[i],
-            pair.baseToken.address,
-            singleExchangePair.address,
-            singleExchangePair.exchange.routerAddress
-          );
-          exchangesPrices[i].pairs.push({
-            ...singleExchangePair,
-            prices,
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      }
+      const baseTokenAmount = amountBaseToken[i];
+      promises.push(this.fetchPriceForPair(pair, baseTokenAmount));
       i++;
     }
+    exchangesPrices = await Promise.all(promises);
 
     return exchangesPrices;
   };
@@ -218,25 +212,12 @@ export class PriceService extends BlockchainService {
           );
           console.log('The price difference -------- ', priceDifDir1);
 
-          mailgun.messages().send(
-            {
-              from: 'PRINT BNB <me@samples.mailgun.org>',
-              to: ['limol.lionel@gmail.com', 'lorcann@live.fr'],
-              subject: 'Hello',
-              text: `BUY ${pair.baseToken.symbol} on ${
-                result['direction1'].direction[0].exchangeBuy.name
-              } and SELL ${pair.quoteToken.symbol} on ${
-                result['direction1'].direction[1].exchangeSell.name
-              } || profit: ${priceDifDir1 * pair.baseTokenAmount} ${
-                pair.quoteToken.symbol
-              } || priceDiff: ${priceDifDir1} || Price gotten for baseToken amount: ${
-                pair.baseTokenAmount
-              }`,
-            },
-            function (error, body) {
-              console.log(body);
-            }
-          );
+          this.mailService.sendGenericEmail({
+            pair,
+            exchangeBuy: result.direction1.direction[0].exchangeBuy,
+            exchangeSell: result.direction1.direction[1].exchangeSell,
+            priceDifDir: priceDifDir1,
+          });
         }
 
         if (priceDifDir2 > 0) {
@@ -246,27 +227,12 @@ export class PriceService extends BlockchainService {
           );
           console.log('The price difference -------- ', priceDifDir2);
 
-          mailgun.messages().send(
-            {
-              from: 'PRINT BNB <me@samples.mailgun.org>',
-              to: ['limol.lionel@gmail.com', 'lorcann@live.fr'],
-              subject: 'Hello',
-              text: `BUY ${pair.baseToken.symbol} on ${
-                result['direction2'].direction[0].exchangeBuy.name
-              } and SELL ${pair.quoteToken.symbol} on ${
-                result['direction2'].direction[1].exchangeSell.name
-              } || profit: ${priceDifDir2 * pair.baseTokenAmount} ${
-                pair.quoteToken.symbol
-              } ${
-                pair.quoteToken.symbol
-              } || priceDiff: ${priceDifDir2} || Price gotten for baseToken amount: ${
-                pair.baseTokenAmount
-              }`,
-            },
-            function (error, body) {
-              console.log(body);
-            }
-          );
+          this.mailService.sendGenericEmail({
+            pair,
+            exchangeBuy: result.direction2.direction[0].exchangeBuy,
+            exchangeSell: result.direction2.direction[1].exchangeSell,
+            priceDifDir: priceDifDir2,
+          });
         }
 
         profitComputation.push(result);

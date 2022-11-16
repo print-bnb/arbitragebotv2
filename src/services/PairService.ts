@@ -152,5 +152,3 @@ export class PairService extends BlockchainService {
     );
   };
 }
-
-module.exports = PairService;
