@@ -18,11 +18,15 @@ export interface PairPrice {
 export interface ExchangePrice {
   symbols: string;
   baseToken: { symbol: string; address: string };
-  baseTokenAmount: BigNumber;
+  baseTokenAmount: number;
   quoteToken: { symbol: string; address: string };
   pairs: (Pair__pair & { prices: PairPrice })[];
-  profitComputation?: ProfitComputationResult[];
 }
+
+export interface ExchangePriceWithComputation extends ExchangePrice {
+  profitComputation: ProfitComputationResult[];
+}
+
 export interface ProfitComputationResult__direction {
   direction: [{ addressBuy; exchangeBuy }, { addressSell; exchangeSell }];
   priceDifference: number;
@@ -67,16 +71,16 @@ export class PriceService extends BlockchainService {
         ]);
       // console.timeEnd('FetchReserves');
 
-      const token0 = fromPoolReserves[0] as BigNumber;
-      const token1 = fromPoolReserves[1] as BigNumber;
+      const token0 = Number(ethers.utils.formatEther(fromPoolReserves[0]));
+      const token1 = Number(ethers.utils.formatEther(fromPoolReserves[1]));
 
       let pairPrice, pathSell, pathBuy;
       if (baseTokenAddress !== addressToken0) {
-        pairPrice = token0.div(token1);
+        pairPrice = token0 / token1;
         pathSell = [addressToken1, addressToken0];
         pathBuy = [addressToken0, addressToken1];
       } else {
-        pairPrice = token1.div(token0);
+        pairPrice = token1 / token0;
         pathSell = [addressToken0, addressToken1];
         pathBuy = [addressToken1, addressToken0];
       }
@@ -127,7 +131,7 @@ export class PriceService extends BlockchainService {
     const exchangesPrice: ExchangePrice = {
       symbols,
       baseToken,
-      baseTokenAmount,
+      baseTokenAmount: Number(ethers.utils.formatEther(baseTokenAmount)),
       quoteToken,
       pairs: [],
     };
@@ -173,7 +177,10 @@ export class PriceService extends BlockchainService {
     return allPrices;
   };
 
-  computeProfit = (allPricesComb: ExchangePrice[]) => {
+  computeProfit = (
+    allPricesComb: ExchangePrice[]
+  ): ExchangePriceWithComputation[] => {
+    const result: ExchangePriceWithComputation[] = [];
     for (let i = 0; i < allPricesComb.length; i++) {
       let pair = allPricesComb[i];
       let pricesDEXComb = pair.pairs;
@@ -237,10 +244,13 @@ export class PriceService extends BlockchainService {
 
         profitComputation.push(result);
       }
-      allPricesComb[i].profitComputation = profitComputation;
+      result.push({
+        ...allPricesComb[i],
+        profitComputation,
+      });
     }
 
-    return allPricesComb;
+    return result;
   };
 
   isProfitable = () => {};

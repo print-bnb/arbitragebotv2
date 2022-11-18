@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import { ethers } from 'ethers';
+import util from 'util';
 dotenv.config();
 import { BlockchainService } from './services/BlockchainService';
 import { PairService } from './services/PairService';
@@ -13,21 +14,27 @@ const priceService = new PriceService();
 
 const startArbitrage = async (amountBaseToken: ethers.BigNumber[]) => {
   // let start = Date.now()
-  let allPrices: ExchangePrice[];
   try {
     // console.time('pairService.getAllPairs');
     const pairs = pairService.getAllPairs();
     // console.timeEnd('pairService.getAllPairs');
 
     console.time('priceService.getAllPrices');
-    allPrices = await priceService.getAllPrices(pairs, amountBaseToken);
+    const allPrices = await priceService.getAllPrices(pairs, amountBaseToken);
     console.timeEnd('priceService.getAllPrices');
 
     // console.time('priceService.combineDEXtrades');
-    let allPricesComb = priceService.combineDEXtrades(allPrices);
+    const allPricesComb = priceService.combineDEXtrades(allPrices);
     // console.timeEnd('priceService.combineDEXtrades');
     // console.time('priceService.computeProfit');
-    let isProfitable = priceService.computeProfit(allPricesComb);
+    const allPricesWithProfitComputation =
+      priceService.computeProfit(allPricesComb);
+    // console.info(
+    //   util.inspect(allPricesWithProfitComputation, {
+    //     depth: 7,
+    //     colors: true,
+    //   })
+    // );
     // console.timeEnd('priceService.computeProfit');
   } catch (error) {
     console.log(error);
